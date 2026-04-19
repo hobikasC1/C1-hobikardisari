@@ -1,0 +1,2774 @@
+
+[
+  {
+    "participantId": "d2025_1",
+    "participantName": "Romi Tammann",
+    "participantClass": "",
+    "totalPoints": 1252,
+    "pointsByEvent": {
+      "Aravete": 144,
+      "Õismäe": 150,
+      "Laitse": 126,
+      "Rapla": 144,
+      "Laagri": 125,
+      "Põltsamaa": 133,
+      "Raassilla": 138,
+      "Lange": 143,
+      "Corner": 149
+    }
+  },
+  {
+    "participantId": "d2025_2",
+    "participantName": "Ken Druppa",
+    "participantClass": "U14",
+    "totalPoints": 1187,
+    "pointsByEvent": {
+      "Aravete": 120,
+      "Õismäe": 47,
+      "Laitse": 151,
+      "Rapla": 148,
+      "Laagri": 124,
+      "Põltsamaa": 152,
+      "Raassilla": 152,
+      "Lange": 145,
+      "Corner": 148
+    }
+  },
+  {
+    "participantId": "d2025_3",
+    "participantName": "Keven Kartau",
+    "participantClass": "U14",
+    "totalPoints": 1144,
+    "pointsByEvent": {
+      "Aravete": 125,
+      "Õismäe": 130,
+      "Laitse": 127,
+      "Rapla": 96,
+      "Laagri": 150,
+      "Põltsamaa": 102,
+      "Raassilla": 146,
+      "Lange": 124,
+      "Corner": 144
+    }
+  },
+  {
+    "participantId": "d2025_4",
+    "participantName": "Sander-Mel Mellikov",
+    "participantClass": "",
+    "totalPoints": 1070,
+    "pointsByEvent": {
+      "Aravete": 143,
+      "Õismäe": 107,
+      "Laitse": 96,
+      "Rapla": 138,
+      "Laagri": 129,
+      "Põltsamaa": 105,
+      "Raassilla": 139,
+      "Lange": 96,
+      "Corner": 117
+    }
+  },
+  {
+    "participantId": "d2025_5",
+    "participantName": "Kristo Kappet",
+    "participantClass": "",
+    "totalPoints": 1051,
+    "pointsByEvent": {
+      "Aravete": 121,
+      "Õismäe": 123,
+      "Laitse": 118,
+      "Rapla": 101,
+      "Laagri": 116,
+      "Põltsamaa": 91,
+      "Raassilla": 127,
+      "Lange": 120,
+      "Corner": 134
+    }
+  },
+  {
+    "participantId": "d2025_6",
+    "participantName": "Rihhard Leheroo",
+    "participantClass": "U14",
+    "totalPoints": 987,
+    "pointsByEvent": {
+      "Aravete": 135,
+      "Õismäe": 119,
+      "Laitse": 128,
+      "Rapla": 79,
+      "Laagri": 126,
+      "Põltsamaa": 73,
+      "Raassilla": 130,
+      "Lange": 85,
+      "Corner": 112
+    }
+  },
+  {
+    "participantId": "d2025_7",
+    "participantName": "Roomet Mosov",
+    "participantClass": "U14",
+    "totalPoints": 986,
+    "pointsByEvent": {
+      "Aravete": 105,
+      "Õismäe": 138,
+      "Laitse": 92,
+      "Rapla": 80,
+      "Laagri": 67,
+      "Põltsamaa": 118,
+      "Raassilla": 137,
+      "Lange": 135,
+      "Corner": 114
+    }
+  },
+  {
+    "participantId": "d2025_8",
+    "participantName": "Lauri Kärsin",
+    "participantClass": "",
+    "totalPoints": 979,
+    "pointsByEvent": {
+      "Aravete": 134,
+      "Õismäe": 134,
+      "Laitse": 114,
+      "Rapla": 128,
+      "Laagri": 111,
+      "Põltsamaa": 0,
+      "Raassilla": 118,
+      "Lange": 119,
+      "Corner": 121
+    }
+  },
+  {
+    "participantId": "d2025_9",
+    "participantName": "Mia Druppa",
+    "participantClass": "U14",
+    "totalPoints": 956,
+    "pointsByEvent": {
+      "Aravete": 35,
+      "Õismäe": 132,
+      "Laitse": 117,
+      "Rapla": 101,
+      "Laagri": 142,
+      "Põltsamaa": 92,
+      "Raassilla": 126,
+      "Lange": 109,
+      "Corner": 102
+    }
+  },
+  {
+    "participantId": "d2025_10",
+    "participantName": "Risto Kappet",
+    "participantClass": "",
+    "totalPoints": 886,
+    "pointsByEvent": {
+      "Aravete": 134,
+      "Õismäe": 143,
+      "Laitse": 106,
+      "Rapla": 128,
+      "Laagri": 145,
+      "Põltsamaa": 99,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 131
+    }
+  },
+  {
+    "participantId": "d2025_11",
+    "participantName": "Lukas Tark",
+    "participantClass": "",
+    "totalPoints": 859,
+    "pointsByEvent": {
+      "Aravete": 43,
+      "Õismäe": 131,
+      "Laitse": 99,
+      "Rapla": 111,
+      "Laagri": 142,
+      "Põltsamaa": 0,
+      "Raassilla": 113,
+      "Lange": 92,
+      "Corner": 128
+    }
+  },
+  {
+    "participantId": "d2025_12",
+    "participantName": "Karl Läll",
+    "participantClass": "",
+    "totalPoints": 786,
+    "pointsByEvent": {
+      "Aravete": 88,
+      "Õismäe": 72,
+      "Laitse": 97,
+      "Rapla": 97,
+      "Laagri": 64,
+      "Põltsamaa": 62,
+      "Raassilla": 106,
+      "Lange": 93,
+      "Corner": 107
+    }
+  },
+  {
+    "participantId": "d2025_13",
+    "participantName": "Andreas Talts",
+    "participantClass": "U14",
+    "totalPoints": 783,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 140,
+      "Rapla": 125,
+      "Laagri": 133,
+      "Põltsamaa": 129,
+      "Raassilla": 0,
+      "Lange": 140,
+      "Corner": 116
+    }
+  },
+  {
+    "participantId": "d2025_14",
+    "participantName": "Sander Sasi",
+    "participantClass": "",
+    "totalPoints": 747,
+    "pointsByEvent": {
+      "Aravete": 124,
+      "Õismäe": 115,
+      "Laitse": 127,
+      "Rapla": 125,
+      "Laagri": 137,
+      "Põltsamaa": 119,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_15",
+    "participantName": "Martin Saarnak",
+    "participantClass": "",
+    "totalPoints": 690,
+    "pointsByEvent": {
+      "Aravete": 132,
+      "Õismäe": 132,
+      "Laitse": 124,
+      "Rapla": 106,
+      "Laagri": 105,
+      "Põltsamaa": 91,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_16",
+    "participantName": "Ilja Udre",
+    "participantClass": "",
+    "totalPoints": 677,
+    "pointsByEvent": {
+      "Aravete": 137,
+      "Õismäe": 80,
+      "Laitse": 143,
+      "Rapla": 141,
+      "Laagri": 59,
+      "Põltsamaa": 117,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_17",
+    "participantName": "Taavi Altpuu",
+    "participantClass": "90kg+",
+    "totalPoints": 565,
+    "pointsByEvent": {
+      "Aravete": 83,
+      "Õismäe": 86,
+      "Laitse": 70,
+      "Rapla": 49,
+      "Laagri": 91,
+      "Põltsamaa": 14,
+      "Raassilla": 0,
+      "Lange": 86,
+      "Corner": 86
+    }
+  },
+  {
+    "participantId": "d2025_18",
+    "participantName": "Rainer Arendi",
+    "participantClass": "U14",
+    "totalPoints": 520,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 67,
+      "Laitse": 50,
+      "Rapla": 49,
+      "Laagri": 50,
+      "Põltsamaa": 53,
+      "Raassilla": 94,
+      "Lange": 66,
+      "Corner": 91
+    }
+  },
+  {
+    "participantId": "d2025_19",
+    "participantName": "Fedor Novikov",
+    "participantClass": "",
+    "totalPoints": 494,
+    "pointsByEvent": {
+      "Aravete": 15,
+      "Õismäe": 75,
+      "Laitse": 0,
+      "Rapla": 26,
+      "Laagri": 78,
+      "Põltsamaa": 60,
+      "Raassilla": 97,
+      "Lange": 59,
+      "Corner": 84
+    }
+  },
+  {
+    "participantId": "d2025_20",
+    "participantName": "Henri Loid",
+    "participantClass": "U14",
+    "totalPoints": 489,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 87,
+      "Laagri": 0,
+      "Põltsamaa": 146,
+      "Raassilla": 140,
+      "Lange": 116,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_21",
+    "participantName": "Sander Post",
+    "participantClass": "U14",
+    "totalPoints": 473,
+    "pointsByEvent": {
+      "Aravete": 7,
+      "Õismäe": 40,
+      "Laitse": 53,
+      "Rapla": 35,
+      "Laagri": 75,
+      "Põltsamaa": 5,
+      "Raassilla": 93,
+      "Lange": 78,
+      "Corner": 87
+    }
+  },
+  {
+    "participantId": "d2025_22",
+    "participantName": "Geir Matkamäe",
+    "participantClass": "90kg+",
+    "totalPoints": 440,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 43,
+      "Laitse": 18,
+      "Rapla": 43,
+      "Laagri": 34,
+      "Põltsamaa": 57,
+      "Raassilla": 94,
+      "Lange": 72,
+      "Corner": 79
+    }
+  },
+  {
+    "participantId": "d2025_23",
+    "participantName": "Silver Jõffert",
+    "participantClass": "90kg+",
+    "totalPoints": 436,
+    "pointsByEvent": {
+      "Aravete": 47,
+      "Õismäe": 23,
+      "Laitse": 0,
+      "Rapla": 18,
+      "Laagri": 84,
+      "Põltsamaa": 26,
+      "Raassilla": 105,
+      "Lange": 53,
+      "Corner": 80
+    }
+  },
+  {
+    "participantId": "d2025_24",
+    "participantName": "Hanna-Grete Suvemaa",
+    "participantClass": "",
+    "totalPoints": 436,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 98,
+      "Rapla": 124,
+      "Laagri": 129,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 85
+    }
+  },
+  {
+    "participantId": "d2025_25",
+    "participantName": "Taniel Sõõrumaa",
+    "participantClass": "",
+    "totalPoints": 410,
+    "pointsByEvent": {
+      "Aravete": 103,
+      "Õismäe": 113,
+      "Laitse": 74,
+      "Rapla": 120,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_26",
+    "participantName": "Remi Ahuna",
+    "participantClass": "U14",
+    "totalPoints": 397,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 28,
+      "Laagri": 0,
+      "Põltsamaa": 126,
+      "Raassilla": 111,
+      "Lange": 132,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_27",
+    "participantName": "Larsen-Klaus Tammepuu",
+    "participantClass": "",
+    "totalPoints": 379,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 116,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 134,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 129
+    }
+  },
+  {
+    "participantId": "d2025_28",
+    "participantName": "Jan Kristen Roiland",
+    "participantClass": "",
+    "totalPoints": 364,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 58,
+      "Laitse": 22,
+      "Rapla": 61,
+      "Laagri": 55,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 79,
+      "Corner": 89
+    }
+  },
+  {
+    "participantId": "d2025_29",
+    "participantName": "Lauri Kongas",
+    "participantClass": "",
+    "totalPoints": 337,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 91,
+      "Laitse": 93,
+      "Rapla": 101,
+      "Laagri": 0,
+      "Põltsamaa": 52,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_30",
+    "participantName": "Raigo Urbanik",
+    "participantClass": "90kg+",
+    "totalPoints": 328,
+    "pointsByEvent": {
+      "Aravete": 16,
+      "Õismäe": 0,
+      "Laitse": 48,
+      "Rapla": 0,
+      "Laagri": 81,
+      "Põltsamaa": 30,
+      "Raassilla": 0,
+      "Lange": 48,
+      "Corner": 105
+    }
+  },
+  {
+    "participantId": "d2025_31",
+    "participantName": "Platon Labaznikov",
+    "participantClass": "U14",
+    "totalPoints": 325,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 145,
+      "Laitse": 73,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 107,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_32",
+    "participantName": "Kristjan Salvet",
+    "participantClass": "",
+    "totalPoints": 322,
+    "pointsByEvent": {
+      "Aravete": 149,
+      "Õismäe": 32,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 141,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_33",
+    "participantName": "Eugen Urbanik",
+    "participantClass": "",
+    "totalPoints": 310,
+    "pointsByEvent": {
+      "Aravete": 37,
+      "Õismäe": 0,
+      "Laitse": 4,
+      "Rapla": 0,
+      "Laagri": 108,
+      "Põltsamaa": 25,
+      "Raassilla": 0,
+      "Lange": 58,
+      "Corner": 78
+    }
+  },
+  {
+    "participantId": "d2025_34",
+    "participantName": "Laur Uusmägi",
+    "participantClass": "",
+    "totalPoints": 307,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 85,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 114,
+      "Raassilla": 108,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_35",
+    "participantName": "Paul Leedmaa",
+    "participantClass": "U14",
+    "totalPoints": 301,
+    "pointsByEvent": {
+      "Aravete": 87,
+      "Õismäe": 0,
+      "Laitse": 93,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 121,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_36",
+    "participantName": "Cameron Korkka",
+    "participantClass": "",
+    "totalPoints": 299,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 87,
+      "Põltsamaa": 62,
+      "Raassilla": 0,
+      "Lange": 150,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_37",
+    "participantName": "Karmo Kerb",
+    "participantClass": "",
+    "totalPoints": 287,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 149,
+      "Laagri": 0,
+      "Põltsamaa": 138,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_38",
+    "participantName": "Kristofer Kübarsepp",
+    "participantClass": "",
+    "totalPoints": 284,
+    "pointsByEvent": {
+      "Aravete": 64,
+      "Õismäe": 51,
+      "Laitse": 57,
+      "Rapla": 112,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_39",
+    "participantName": "Robin Särg",
+    "participantClass": "",
+    "totalPoints": 283,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 148,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 135
+    }
+  },
+  {
+    "participantId": "d2025_40",
+    "participantName": "Hugo Türkson",
+    "participantClass": "",
+    "totalPoints": 276,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 139,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 137
+    }
+  },
+  {
+    "participantId": "d2025_41",
+    "participantName": "Ketter Sassi",
+    "participantClass": "",
+    "totalPoints": 264,
+    "pointsByEvent": {
+      "Aravete": 38,
+      "Õismäe": 102,
+      "Laitse": 0,
+      "Rapla": 64,
+      "Laagri": 60,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_42",
+    "participantName": "Oskar Pedosk",
+    "participantClass": "",
+    "totalPoints": 248,
+    "pointsByEvent": {
+      "Aravete": 108,
+      "Õismäe": 0,
+      "Laitse": 58,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 82,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_43",
+    "participantName": "Mart Soo",
+    "participantClass": "",
+    "totalPoints": 245,
+    "pointsByEvent": {
+      "Aravete": 79,
+      "Õismäe": 70,
+      "Laitse": 0,
+      "Rapla": 96,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_44",
+    "participantName": "Sander Kandla",
+    "participantClass": "",
+    "totalPoints": 239,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 108,
+      "Laitse": 54,
+      "Rapla": 77,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_45",
+    "participantName": "Andrei Orlov",
+    "participantClass": "",
+    "totalPoints": 224,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 27,
+      "Rapla": 64,
+      "Laagri": 0,
+      "Põltsamaa": 67,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 66
+    }
+  },
+  {
+    "participantId": "d2025_46",
+    "participantName": "Siim Kallakmaa",
+    "participantClass": "",
+    "totalPoints": 212,
+    "pointsByEvent": {
+      "Aravete": 54,
+      "Õismäe": 83,
+      "Laitse": 75,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_47",
+    "participantName": "Agnes Ojala",
+    "participantClass": "U14",
+    "totalPoints": 205,
+    "pointsByEvent": {
+      "Aravete": 112,
+      "Õismäe": 0,
+      "Laitse": 37,
+      "Rapla": 24,
+      "Laagri": 32,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_48",
+    "participantName": "Aleksandr Svjatnoi",
+    "participantClass": "",
+    "totalPoints": 205,
+    "pointsByEvent": {
+      "Aravete": 98,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 107,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_49",
+    "participantName": "Jaanus Veste",
+    "participantClass": "90kg+",
+    "totalPoints": 204,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 53,
+      "Laitse": 29,
+      "Rapla": 13,
+      "Laagri": 104,
+      "Põltsamaa": 5,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_50",
+    "participantName": "Henri Greenbaum",
+    "participantClass": "",
+    "totalPoints": 203,
+    "pointsByEvent": {
+      "Aravete": 103,
+      "Õismäe": 32,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 68
+    }
+  },
+  {
+    "participantId": "d2025_51",
+    "participantName": "Vahur Vollmann",
+    "participantClass": "90kg+",
+    "totalPoints": 189,
+    "pointsByEvent": {
+      "Aravete": 78,
+      "Õismäe": 78,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 33,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_52",
+    "participantName": "Raul Urberg",
+    "participantClass": "",
+    "totalPoints": 179,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 25,
+      "Rapla": 32,
+      "Laagri": 39,
+      "Põltsamaa": 83,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_53",
+    "participantName": "Mark Sören Markus",
+    "participantClass": "U14",
+    "totalPoints": 172,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 62,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 110
+    }
+  },
+  {
+    "participantId": "d2025_54",
+    "participantName": "Bert-Anders Unt",
+    "participantClass": "90kg+",
+    "totalPoints": 170,
+    "pointsByEvent": {
+      "Aravete": 26,
+      "Õismäe": 53,
+      "Laitse": 0,
+      "Rapla": 54,
+      "Laagri": 37,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_55",
+    "participantName": "Oliver Saks",
+    "participantClass": "U14",
+    "totalPoints": 165,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 31,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 134,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_56",
+    "participantName": "Kaspar-Janek Ojala",
+    "participantClass": "U14",
+    "totalPoints": 154,
+    "pointsByEvent": {
+      "Aravete": 54,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 82,
+      "Põltsamaa": 18,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_57",
+    "participantName": "Gregor Laur",
+    "participantClass": "",
+    "totalPoints": 148,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 94,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 54,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_58",
+    "participantName": "Damir Mingazov",
+    "participantClass": "",
+    "totalPoints": 145,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 145,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_59",
+    "participantName": "Andrey Lisitsyn",
+    "participantClass": "90kg+",
+    "totalPoints": 138,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 66,
+      "Rapla": 72,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_60",
+    "participantName": "Oskar Gubar",
+    "participantClass": "",
+    "totalPoints": 128,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 128,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_61",
+    "participantName": "Kristjan Penjam",
+    "participantClass": "",
+    "totalPoints": 127,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 127,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_62",
+    "participantName": "Erik Loid",
+    "participantClass": "U14",
+    "totalPoints": 127,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 127,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_63",
+    "participantName": "Randel-Erik Evestus",
+    "participantClass": "",
+    "totalPoints": 124,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 124,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_64",
+    "participantName": "Henry Teigar",
+    "participantClass": "90kg+",
+    "totalPoints": 124,
+    "pointsByEvent": {
+      "Aravete": 22,
+      "Õismäe": 70,
+      "Laitse": 12,
+      "Rapla": 20,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_65",
+    "participantName": "Oliver Erik Urvak",
+    "participantClass": "",
+    "totalPoints": 123,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 123,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_66",
+    "participantName": "Emma Suvemaa",
+    "participantClass": "",
+    "totalPoints": 122,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 60,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 62
+    }
+  },
+  {
+    "participantId": "d2025_67",
+    "participantName": "Tõnu Taalimäe",
+    "participantClass": "90kg+",
+    "totalPoints": 120,
+    "pointsByEvent": {
+      "Aravete": 73,
+      "Õismäe": 25,
+      "Laitse": 0,
+      "Rapla": 5,
+      "Laagri": 0,
+      "Põltsamaa": 17,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_68",
+    "participantName": "Erik Martin",
+    "participantClass": "",
+    "totalPoints": 116,
+    "pointsByEvent": {
+      "Aravete": 54,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 62,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_69",
+    "participantName": "Kristjan Kilu",
+    "participantClass": "90kg+",
+    "totalPoints": 114,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 12,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 22,
+      "Põltsamaa": 0,
+      "Raassilla": 80,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_70",
+    "participantName": "Ivar Kalamees",
+    "participantClass": "",
+    "totalPoints": 114,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 114,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_71",
+    "participantName": "Lucas Lausing",
+    "participantClass": "90kg+",
+    "totalPoints": 112,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 39,
+      "Raassilla": 0,
+      "Lange": 73,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_72",
+    "participantName": "Siim Liivand",
+    "participantClass": "",
+    "totalPoints": 108,
+    "pointsByEvent": {
+      "Aravete": 108,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_73",
+    "participantName": "Franz Ottas",
+    "participantClass": "U14",
+    "totalPoints": 107,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 107,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_74",
+    "participantName": "Eduard Varkel",
+    "participantClass": "",
+    "totalPoints": 107,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 107,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_75",
+    "participantName": "Marken Pruul",
+    "participantClass": "",
+    "totalPoints": 105,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 105,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_76",
+    "participantName": "Marko Hint",
+    "participantClass": "",
+    "totalPoints": 105,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 105,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_77",
+    "participantName": "Asko Viira",
+    "participantClass": "",
+    "totalPoints": 104,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 104,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_78",
+    "participantName": "Toomas Karotamm",
+    "participantClass": "",
+    "totalPoints": 98,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 98,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_79",
+    "participantName": "Marko Karpats",
+    "participantClass": "",
+    "totalPoints": 93,
+    "pointsByEvent": {
+      "Aravete": 4,
+      "Õismäe": 18,
+      "Laitse": 1,
+      "Rapla": 7,
+      "Laagri": 31,
+      "Põltsamaa": 32,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_80",
+    "participantName": "Marten Ojapõld",
+    "participantClass": "90kg+",
+    "totalPoints": 92,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 92,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_81",
+    "participantName": "Henrietta Olak",
+    "participantClass": "",
+    "totalPoints": 92,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 92,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_82",
+    "participantName": "Georg Kogermann",
+    "participantClass": "U14",
+    "totalPoints": 90,
+    "pointsByEvent": {
+      "Aravete": 90,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_83",
+    "participantName": "Stenver Salu",
+    "participantClass": "",
+    "totalPoints": 90,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 90,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_84",
+    "participantName": "Richard Alexander Pullinen",
+    "participantClass": "",
+    "totalPoints": 89,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 89,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_85",
+    "participantName": "Kristen Kangur",
+    "participantClass": "U14",
+    "totalPoints": 87,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 87,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_86",
+    "participantName": "Raiko Ausmees",
+    "participantClass": "90kg+",
+    "totalPoints": 86,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 86,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_87",
+    "participantName": "Artur Ploom",
+    "participantClass": "90kg+",
+    "totalPoints": 85,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 85,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_88",
+    "participantName": "Silver Kleimann-Leimann",
+    "participantClass": "",
+    "totalPoints": 85,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 85,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_89",
+    "participantName": "Mihhail Vovtsok",
+    "participantClass": "90kg+",
+    "totalPoints": 83,
+    "pointsByEvent": {
+      "Aravete": 83,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_90",
+    "participantName": "Erik Heinvee",
+    "participantClass": "",
+    "totalPoints": 79,
+    "pointsByEvent": {
+      "Aravete": 3,
+      "Õismäe": 24,
+      "Laitse": 0,
+      "Rapla": 6,
+      "Laagri": 46,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_91",
+    "participantName": "Mark Dubnitski",
+    "participantClass": "",
+    "totalPoints": 79,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 79,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_92",
+    "participantName": "Markus Mettus",
+    "participantClass": "U14",
+    "totalPoints": 77,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 77,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_93",
+    "participantName": "Riko Ausmees",
+    "participantClass": "",
+    "totalPoints": 77,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 77,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_94",
+    "participantName": "Karl Jakob Tamme",
+    "participantClass": "",
+    "totalPoints": 73,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 38,
+      "Rapla": 35,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_95",
+    "participantName": "Lucas Orav",
+    "participantClass": "90kg+",
+    "totalPoints": 71,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 71,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_96",
+    "participantName": "Andreas Trees",
+    "participantClass": "",
+    "totalPoints": 70,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 70,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_97",
+    "participantName": "Steven Marcus Ojapõld",
+    "participantClass": "",
+    "totalPoints": 69,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 69,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_98",
+    "participantName": "Aaron Ausmees",
+    "participantClass": "",
+    "totalPoints": 69,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 69,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_99",
+    "participantName": "Kenert Soots",
+    "participantClass": "",
+    "totalPoints": 68,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 68,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_100",
+    "participantName": "Liis Liivand",
+    "participantClass": "U14",
+    "totalPoints": 67,
+    "pointsByEvent": {
+      "Aravete": 67,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_101",
+    "participantName": "Christopher Einmann",
+    "participantClass": "",
+    "totalPoints": 66,
+    "pointsByEvent": {
+      "Aravete": 66,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_102",
+    "participantName": "Gregor Novožilov",
+    "participantClass": "",
+    "totalPoints": 66,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 66,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_103",
+    "participantName": "Antti Tooming",
+    "participantClass": "",
+    "totalPoints": 63,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 63,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_104",
+    "participantName": "Argo Valing",
+    "participantClass": "90kg+",
+    "totalPoints": 60,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 60
+    }
+  },
+  {
+    "participantId": "d2025_105",
+    "participantName": "Sander Tammeleht",
+    "participantClass": "",
+    "totalPoints": 57,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 57,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_106",
+    "participantName": "Ragnar Jung",
+    "participantClass": "",
+    "totalPoints": 55,
+    "pointsByEvent": {
+      "Aravete": 55,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_107",
+    "participantName": "Andrei Gvozdik",
+    "participantClass": "U14",
+    "totalPoints": 55,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 55
+    }
+  },
+  {
+    "participantId": "d2025_108",
+    "participantName": "Urmo Siivelt",
+    "participantClass": "",
+    "totalPoints": 55,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 55
+    }
+  },
+  {
+    "participantId": "d2025_109",
+    "participantName": "Rocco Särg",
+    "participantClass": "U14",
+    "totalPoints": 55,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 55
+    }
+  },
+  {
+    "participantId": "d2025_110",
+    "participantName": "Paul Zujenkov",
+    "participantClass": "90kg+",
+    "totalPoints": 53,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 53,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_111",
+    "participantName": "Šamsudin Mussajev",
+    "participantClass": "90kg+",
+    "totalPoints": 52,
+    "pointsByEvent": {
+      "Aravete": 52,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_112",
+    "participantName": "Jörgen Kursk",
+    "participantClass": "",
+    "totalPoints": 52,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 52,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_113",
+    "participantName": "Jaak Post",
+    "participantClass": "90kg+",
+    "totalPoints": 48,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 48
+    }
+  },
+  {
+    "participantId": "d2025_114",
+    "participantName": "Karl Robin Volmer",
+    "participantClass": "",
+    "totalPoints": 46,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 46,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_115",
+    "participantName": "Markus Mettus",
+    "participantClass": "U14",
+    "totalPoints": 45,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 45,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_116",
+    "participantName": "Artur Karu",
+    "participantClass": "",
+    "totalPoints": 43,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 43,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_117",
+    "participantName": "Allan Berg",
+    "participantClass": "90kg+",
+    "totalPoints": 41,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 41,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_118",
+    "participantName": "Fredi Zaikov",
+    "participantClass": "90kg+",
+    "totalPoints": 41,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 41,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_119",
+    "participantName": "Kaspar Tulp",
+    "participantClass": "90kg+",
+    "totalPoints": 40,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 40,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_120",
+    "participantName": "Steven Marcus Ojapōld",
+    "participantClass": "",
+    "totalPoints": 38,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 38,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_121",
+    "participantName": "Villem Saarna",
+    "participantClass": "",
+    "totalPoints": 38,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 38,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_122",
+    "participantName": "Dmitri Jevdokimov",
+    "participantClass": "90kg+",
+    "totalPoints": 36,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 36,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_123",
+    "participantName": "Rannar Uusna",
+    "participantClass": "",
+    "totalPoints": 35,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 35,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_124",
+    "participantName": "Raido Mettus",
+    "participantClass": "",
+    "totalPoints": 33,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 33,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_125",
+    "participantName": "Christopher Juul",
+    "participantClass": "90kg+",
+    "totalPoints": 27,
+    "pointsByEvent": {
+      "Aravete": 27,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_126",
+    "participantName": "Kaspar Kanne",
+    "participantClass": "90kg+",
+    "totalPoints": 27,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 27,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_127",
+    "participantName": "Asko Gross",
+    "participantClass": "90kg+",
+    "totalPoints": 26,
+    "pointsByEvent": {
+      "Aravete": 26,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_128",
+    "participantName": "Martin Tamm",
+    "participantClass": "90kg+",
+    "totalPoints": 25,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 25,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_129",
+    "participantName": "Karla Kirsch",
+    "participantClass": "",
+    "totalPoints": 19,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 19,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_130",
+    "participantName": "Mark Pierov",
+    "participantClass": "",
+    "totalPoints": 17,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 17,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_131",
+    "participantName": "Jörgen Ader",
+    "participantClass": "90kg+",
+    "totalPoints": 15,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 15,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_132",
+    "participantName": "Travis Tooming",
+    "participantClass": "U14",
+    "totalPoints": 14,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 14,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_133",
+    "participantName": "Raul Põdersalu",
+    "participantClass": "90kg+",
+    "totalPoints": 13,
+    "pointsByEvent": {
+      "Aravete": 8,
+      "Õismäe": 0,
+      "Laitse": 5,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_134",
+    "participantName": "Ragnar Jõesaar",
+    "participantClass": "",
+    "totalPoints": 10,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 10,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_135",
+    "participantName": "Nikki Maasing",
+    "participantClass": "",
+    "totalPoints": 9,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 9,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_136",
+    "participantName": "Robert Maidla",
+    "participantClass": "90kg+",
+    "totalPoints": 8,
+    "pointsByEvent": {
+      "Aravete": 8,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_137",
+    "participantName": "Toomas Laiva",
+    "participantClass": "90kg+",
+    "totalPoints": 3,
+    "pointsByEvent": {
+      "Aravete": 3,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_138",
+    "participantName": "Margaret Saluste",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_139",
+    "participantName": "Andres Burov",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_140",
+    "participantName": "Christofer Susi",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_141",
+    "participantName": "Aivo Oina",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_142",
+    "participantName": "Mikk Mihkel Nurges",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_143",
+    "participantName": "Heiki Koster",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_144",
+    "participantName": "Ahti Oina",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_145",
+    "participantName": "Mihkel Horn",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_146",
+    "participantName": "Daniil Zahharov",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_147",
+    "participantName": "Robin Tiits",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_148",
+    "participantName": "Aleksander Pärn",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_149",
+    "participantName": "Timo Tomson",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_150",
+    "participantName": "Marleen Josepiine Rego",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_151",
+    "participantName": "Lauri Veso",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_152",
+    "participantName": "Kim Merimaa",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_153",
+    "participantName": "Siim Taru",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_154",
+    "participantName": "Karl Laas",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_155",
+    "participantName": "Taavi Järvsoo",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_156",
+    "participantName": "Risto Sirg",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_157",
+    "participantName": "Keron Voldek",
+    "participantClass": "U14",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_158",
+    "participantName": "Erik Hellenurm",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_159",
+    "participantName": "Roven Voldek",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_160",
+    "participantName": "Henri Roihu",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_161",
+    "participantName": "Riivo Leevit",
+    "participantClass": "90kg+",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_162",
+    "participantName": "Markus Mettus",
+    "participantClass": "U14",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  },
+  {
+    "participantId": "d2025_163",
+    "participantName": "Kennet Pikas",
+    "participantClass": "",
+    "totalPoints": 0,
+    "pointsByEvent": {
+      "Aravete": 0,
+      "Õismäe": 0,
+      "Laitse": 0,
+      "Rapla": 0,
+      "Laagri": 0,
+      "Põltsamaa": 0,
+      "Raassilla": 0,
+      "Lange": 0,
+      "Corner": 0
+    }
+  }
+]

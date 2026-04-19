@@ -1,0 +1,184 @@
+[
+  {
+    "participantId": "d1",
+    "participantName": "Marek Kask",
+    "participantClass": "Standard",
+    "totalPoints": 110,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 25,
+      "2. Raassilla/Porsche": 18,
+      "3. Põltsamaa(Kuningamäe)": 15,
+      "4. Käina kardirada": 12,
+      "5.Unibet Kardikeskus": 25,
+      "6.Aravete kardirada": 15
+    }
+  },
+  {
+    "participantId": "d2",
+    "participantName": "Liisa Tamm",
+    "participantClass": "Light",
+    "totalPoints": 105,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 18,
+      "2. Raassilla/Porsche": 25,
+      "3. Põltsamaa(Kuningamäe)": 12,
+      "4. Käina kardirada": 25,
+      "5.Unibet Kardikeskus": 10,
+      "6.Aravete kardirada": 15
+    }
+  },
+  {
+    "participantId": "d3",
+    "participantName": "Jaan Paju",
+    "participantClass": "Heavy",
+    "totalPoints": 95,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 15,
+      "2. Raassilla/Porsche": 12,
+      "3. Põltsamaa(Kuningamäe)": 25,
+      "4. Käina kardirada": 18,
+      "5.Unibet Kardikeskus": 15,
+      "6.Aravete kardirada": 10
+    }
+  },
+  {
+    "participantId": "d4",
+    "participantName": "Kristiina Saar",
+    "participantClass": "Light",
+    "totalPoints": 88,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 12,
+      "2. Raassilla/Porsche": 15,
+      "3. Põltsamaa(Kuningamäe)": 18,
+      "4. Käina kardirada": 10,
+      "5.Unibet Kardikeskus": 18,
+      "6.Aravete kardirada": 15
+    }
+  },
+  {
+    "participantId": "d5",
+    "participantName": "Martin Kuusk",
+    "participantClass": "Standard",
+    "totalPoints": 80,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 10,
+      "2. Raassilla/Porsche": 8,
+      "3. Põltsamaa(Kuningamäe)": 10,
+      "4. Käina kardirada": 18,
+      "5.Unibet Kardikeskus": 12,
+      "6.Aravete kardirada": 22
+    }
+  },
+  {
+    "participantId": "d6",
+    "participantName": "Eva Lõhmus",
+    "participantClass": "Light",
+    "totalPoints": 75,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 8,
+      "2. Raassilla/Porsche": 10,
+      "3. Põltsamaa(Kuningamäe)": 6,
+      "4. Käina kardirada": 15,
+      "5.Unibet Kardikeskus": 20,
+      "6.Aravete kardirada": 16
+    }
+  },
+  {
+    "participantId": "d7",
+    "participantName": "Sander Mänd",
+    "participantClass": "Team",
+    "totalPoints": 70,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 6,
+      "2. Raassilla/Porsche": 6,
+      "3. Põltsamaa(Kuningamäe)": 8,
+      "4. Käina kardirada": 20,
+      "5.Unibet Kardikeskus": 10,
+      "6.Aravete kardirada": 20
+    }
+  },
+  {
+    "participantId": "d8",
+    "participantName": "Laura Lepp",
+    "participantClass": "Light",
+    "totalPoints": 65,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 4,
+      "2. Raassilla/Porsche": 4,
+      "3. Põltsamaa(Kuningamäe)": 20,
+      "4. Käina kardirada": 8,
+      "5.Unibet Kardikeskus": 14,
+      "6.Aravete kardirada": 15
+    }
+  },
+  {
+    "participantId": "d9",
+    "participantName": "Rasmus Ilves",
+    "participantClass": "Standard",
+    "totalPoints": 60,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 2,
+      "2. Raassilla/Porsche": 2,
+      "3. Põltsamaa(Kuningamäe)": 12,
+      "4. Käina kardirada": 12,
+      "5.Unibet Kardikeskus": 16,
+      "6.Aravete kardirada": 16
+    }
+  },
+  {
+    "participantId": "d10",
+    "participantName": "Anna Vaher",
+    "participantClass": "Team",
+    "totalPoints": 55,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 1,
+      "2. Raassilla/Porsche": 1,
+      "3. Põltsamaa(Kuningamäe)": 4,
+      "4. Käina kardirada": 10,
+      "5.Unibet Kardikeskus": 20,
+      "6.Aravete kardirada": 19
+    }
+  },
+  {
+    "participantId": "d11",
+    "participantName": "Karl Oja",
+    "participantClass": "Heavy",
+    "totalPoints": 50,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 0,
+      "2. Raassilla/Porsche": 20,
+      "3. Põltsamaa(Kuningamäe)": 0,
+      "4. Käina kardirada": 10,
+      "5.Unibet Kardikeskus": 10,
+      "6.Aravete kardirada": 10
+    }
+  },
+  {
+    "participantId": "d12",
+    "participantName": "Piret Koppel",
+    "participantClass": "Light",
+    "totalPoints": 45,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 10,
+      "2. Raassilla/Porsche": 10,
+      "3. Põltsamaa(Kuningamäe)": 10,
+      "4. Käina kardirada": 5,
+      "5.Unibet Kardikeskus": 5,
+      "6.Aravete kardirada": 5
+    }
+  },
+  {
+    "participantId": "d13",
+    "participantName": "Taavi Mets",
+    "participantClass": "Standard",
+    "totalPoints": 40,
+    "pointsByEvent": {
+      "1. Rapla kardirada": 5,
+      "2. Raassilla/Porsche": 5,
+      "3. Põltsamaa(Kuningamäe)": 5,
+      "4. Käina kardirada": 10,
+      "5.Unibet Kardikeskus": 10,
+      "6.Aravete kardirada": 5
+    }
+  }
+]
