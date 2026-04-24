@@ -6,6 +6,7 @@
 // ============================================================
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import PageLayout from '@/components/PageLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -13,7 +14,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Users, RefreshCw } from 'lucide-react';
+import { Trophy, Users, RefreshCw, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { getSeasonStandings, type SeasonStandingsData, type DriverStandingRow, type TeamStandingRow } from './actions';
@@ -146,6 +147,7 @@ function TeamStandingsTable({ rows, events }: { rows: TeamStandingRow[]; events:
 // ---- Page component -------------------------------------------
 
 export default function StandingsPage() {
+  const router = useRouter();
   const { toast } = useToast();
   const [data, setData] = useState<SeasonStandingsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -168,6 +170,9 @@ export default function StandingsPage() {
     <PageLayout>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={() => router.push('/')}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
           <Trophy className="h-6 w-6 text-primary" />
           <h1 className="text-2xl font-bold">Punktitabel 2026</h1>
         </div>

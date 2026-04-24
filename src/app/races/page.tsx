@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { format, formatDistanceToNow, isFuture, isToday } from 'date-fns';
 import { et } from 'date-fns/locale';
-import { Calendar, Plus, Pencil, Trash2, MapPin, Clock, ChevronRight, Hash, AlertTriangle } from 'lucide-react';
+import { Calendar, Plus, Pencil, Trash2, MapPin, Clock, ChevronRight, Hash, AlertTriangle, ChevronLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import PageLayout from '@/components/PageLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -269,9 +269,14 @@ export default function RacesPage() {
   return (
     <PageLayout>
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Võistluskalender 2026</h1>
-          <p className="text-muted-foreground mt-1">Halda hooaja etappe</p>
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={() => router.push('/')}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Võistluskalender 2026</h1>
+            <p className="text-muted-foreground mt-1">Halda hooaja etappe</p>
+          </div>
         </div>
         <div className="flex gap-2">
           {events.length === 0 && (
