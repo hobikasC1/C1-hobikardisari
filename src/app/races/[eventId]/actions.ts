@@ -56,6 +56,24 @@ export async function getEventFullData(eventId: string): Promise<EventFullData> 
 }
 
 // ============================================================
+// Kart settings
+// ============================================================
+
+export async function updateKartSettings(
+  eventId: string,
+  maxKarts: number,
+  availableKartNumbers: number[]
+): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('events')
+    .update({ max_karts: maxKarts, available_kart_numbers: availableKartNumbers })
+    .eq('id', eventId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/races/${eventId}`);
+}
+
+// ============================================================
 // Event entries (participants)
 // ============================================================
 

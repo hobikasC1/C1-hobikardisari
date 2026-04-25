@@ -38,9 +38,6 @@ export default function PageLayout({ children, backHref, className }: PageLayout
       <main className={cn("flex-grow container mx-auto px-4 py-8", className)}>
         {children}
       </main>
-      <footer className="bg-card text-muted-foreground py-4 text-center text-sm">
-        <p>&copy; {new Date().getFullYear()} Corner 1 Hobikardisari. Valmis võidusõiduks!</p>
-      </footer>
     </div>
   );
 }

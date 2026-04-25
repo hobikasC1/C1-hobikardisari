@@ -198,13 +198,29 @@ export function generateHeatGroups(
   previousKarts: Map<string, Set<number>> = new Map()
 ): GeneratedGroup[] {
   const groupNames = 'ABCDEFGHIJKLMNOP'.split('');
+  // Pre-compute target sizes so first (faster) groups get extra drivers
+  const sizes = getGroupSizes(rankedDrivers.length, groupCount);
   const groups: string[][] = Array.from({ length: groupCount }, () => []);
 
-  // Snake draft: 0,1,2,...,n-1, n-1,...,2,1,0, 0,1,2,...
+  // Snake draft with size caps: skip full groups so extras go to earlier groups
   let groupIdx = 0;
   let direction = 1;
 
   for (const driver of rankedDrivers) {
+    // Skip groups that have already reached their target size
+    let attempts = 0;
+    while (groups[groupIdx].length >= sizes[groupIdx] && attempts < groupCount) {
+      groupIdx += direction;
+      if (groupIdx >= groupCount) {
+        groupIdx = groupCount - 1;
+        direction = -1;
+      } else if (groupIdx < 0) {
+        groupIdx = 0;
+        direction = 1;
+      }
+      attempts++;
+    }
+
     groups[groupIdx].push(driver.driverId);
 
     groupIdx += direction;
@@ -297,7 +313,10 @@ export function buildPreviousKartsMap(
  * For heats/finals: by position, with fastest_lap tiebreaker.
  */
 export function rankDriversByBestLap(
-  sessions: { results: { driver_id: string; fastest_lap: string | null }[] }[]
+  sessions: {
+    results: { driver_id: string; fastest_lap: string | null }[];
+    participants?: { driver_id: string }[];
+  }[]
 ): RankedDriver[] {
   // Gather best lap per driver across all sessions
   const bestLaps = new Map<string, number>();
@@ -319,12 +338,11 @@ export function rankDriversByBestLap(
     .map(([driverId, ms]) => ({ driverId, bestLap: ms as number | null }))
     .sort((a, b) => (a.bestLap ?? Infinity) - (b.bestLap ?? Infinity));
 
-  // Add drivers with no lap times
+  // Add drivers with no lap times — from both results and participants
   const allDriverIds = new Set<string>();
   for (const session of sessions) {
-    for (const r of session.results) {
-      allDriverIds.add(r.driver_id);
-    }
+    for (const r of session.results) allDriverIds.add(r.driver_id);
+    for (const p of session.participants ?? []) allDriverIds.add(p.driver_id);
   }
   for (const driverId of allDriverIds) {
     if (!bestLaps.has(driverId)) {

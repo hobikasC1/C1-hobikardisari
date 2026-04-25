@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useParams, useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import PageLayout from '@/components/PageLayout';
@@ -25,10 +28,11 @@ import {
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import {
   Users, Shuffle, Timer, Flag, Trophy, Trash2, ArrowRight, ArrowLeft,
   Upload, Check, X, AlertTriangle, Pencil, Move, ChevronLeft, ImagePlus,
-  Download,
+  Download, Settings, UserPlus,
 } from 'lucide-react';
 import {
   exportQualiResults,
@@ -50,9 +54,10 @@ import {
   moveParticipantBetweenSessions,
   updateParticipantKart,
   updateEventStatus,
+  updateKartSettings,
   type EventFullData,
 } from './actions';
-import { getDrivers } from '@/app/drivers/actions';
+import { getDrivers, createDriver } from '@/app/drivers/actions';
 import { extractResultsFromImage, type OcrResultRow } from '@/lib/ocr';
 import {
   recommendGroupCount,
@@ -70,19 +75,20 @@ import {
 // Step definitions
 // ============================================================
 
-type Step = 'participants' | 'quali_setup' | 'quali_results' | 'heat_setup' | 'heat_results' | 'final_setup' | 'final_results' | 'overview';
+type Step = 'participants' | 'kart_settings' | 'quali_setup' | 'quali_results' | 'heat_setup' | 'heat_results' | 'final_setup' | 'final_results' | 'overview';
 
-const STEPS: Step[] = ['participants', 'quali_setup', 'quali_results', 'heat_setup', 'heat_results', 'final_setup', 'final_results', 'overview'];
+const STEPS: Step[] = ['participants', 'kart_settings', 'quali_setup', 'quali_results', 'heat_setup', 'heat_results', 'final_setup', 'final_results', 'overview'];
 
 const STEP_LABELS: Record<Step, string> = {
   participants: '1. Osalejad',
-  quali_setup: '2. Kvali grupid',
-  quali_results: '3. Kvali tulemused',
-  heat_setup: '4. Eelsõidud',
-  heat_results: '5. Eelsõitude tulem.',
-  final_setup: '6. Finaalid',
-  final_results: '7. Finaali tulem.',
-  overview: '8. Kokkuvõte',
+  kart_settings: '2. Kardid',
+  quali_setup: '3. Kvali grupid',
+  quali_results: '4. Kvali tulemused',
+  heat_setup: '5. Eelsõidud',
+  heat_results: '6. Eelsõitude tulem.',
+  final_setup: '7. Finaalid',
+  final_results: '8. Finaali tulem.',
+  overview: '9. Kokkuvõte',
 };
 
 // ============================================================
@@ -210,6 +216,13 @@ export default function EventPage() {
           onRefresh={loadData}
         />
       )}
+      {step === 'kart_settings' && (
+        <StepKartSettings
+          eventId={eventId}
+          event={event}
+          onRefresh={loadData}
+        />
+      )}
       {step === 'quali_setup' && (
         <StepGroupSetup
           eventId={eventId}
@@ -302,8 +315,98 @@ export default function EventPage() {
 }
 
 // ============================================================
+// STEP 2: Kart Settings
+// ============================================================
+
+function StepKartSettings({
+  eventId,
+  event,
+  onRefresh,
+}: {
+  eventId: string;
+  event: DbEvent;
+  onRefresh: () => Promise<void>;
+}) {
+  const { toast } = useToast();
+  const [maxKarts, setMaxKarts] = useState(event.max_karts);
+  const [kartNumbersStr, setKartNumbersStr] = useState(
+    event.available_kart_numbers.length > 0
+      ? event.available_kart_numbers.join(', ')
+      : ''
+  );
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const parsed = kartNumbersStr
+        .split(',')
+        .map((s) => parseInt(s.trim(), 10))
+        .filter((n) => !isNaN(n));
+      await updateKartSettings(eventId, maxKarts, parsed);
+      toast({ title: 'Kardi seaded salvestatud!' });
+      await onRefresh();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Settings className="h-5 w-5" />
+          Kardi seaded
+        </CardTitle>
+        <CardDescription>
+          Määra maksimaalne kardiarv ja konkreetsed kardinumbrid. Saad neid muuta ka sõidu käigus (nt kaardi vahetus).
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-2 max-w-xs">
+          <Label htmlFor="max-karts">Max karti</Label>
+          <Input
+            id="max-karts"
+            type="number"
+            min={1}
+            max={50}
+            value={maxKarts}
+            onChange={(e) => setMaxKarts(Number(e.target.value))}
+          />
+        </div>
+        <div className="space-y-2 max-w-sm">
+          <Label htmlFor="kart-numbers">Kardinumbrid (komaga eraldatud)</Label>
+          <Input
+            id="kart-numbers"
+            value={kartNumbersStr}
+            onChange={(e) => setKartNumbersStr(e.target.value)}
+            placeholder="nt. 1, 2, 3, 4, 5, 6, 7, 8, 9"
+          />
+          <p className="text-xs text-muted-foreground">Jäta tühjaks kui kardinumbreid pole veel</p>
+        </div>
+        <Button onClick={handleSave} disabled={saving}>
+          {saving ? 'Salvestan...' : 'Salvesta'}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ============================================================
 // STEP 1: Participants
 // ============================================================
+
+const newDriverSchema = z.object({
+  first_name: z.string().min(1, 'Eesnimi on kohustuslik.'),
+  last_name: z.string().min(1, 'Perekonnanimi on kohustuslik.'),
+  dob: z.string().optional().nullable(),
+  weight: z.coerce.number().positive('Kaal peab olema positiivne.').optional().nullable(),
+  class: z.enum(['Junior', 'Standard', 'Heavy']).optional().nullable(),
+  is_licensed: z.boolean().optional(),
+});
+type NewDriverValues = z.infer<typeof newDriverSchema>;
 
 function StepParticipants({
   eventId, entries, allDrivers, onRefresh,
@@ -318,6 +421,40 @@ function StepParticipants({
   const [adding, setAdding] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
   const [deleteConfirm2, setDeleteConfirm2] = useState(false);
+  const [isCreateDriverOpen, setIsCreateDriverOpen] = useState(false);
+  const [creatingDriver, setCreatingDriver] = useState(false);
+
+  const newDriverForm = useForm<NewDriverValues>({
+    resolver: zodResolver(newDriverSchema),
+    defaultValues: { first_name: '', last_name: '', dob: null, weight: null, class: null, is_licensed: false },
+  });
+
+  const handleCreateDriver = async (data: NewDriverValues) => {
+    setCreatingDriver(true);
+    try {
+      const created = await createDriver({
+        first_name: data.first_name,
+        last_name: data.last_name,
+        dob: data.dob ?? null,
+        weight: data.weight ?? null,
+        class: data.class ?? null,
+        is_licensed: data.is_licensed ?? false,
+      });
+      await addParticipantsToEvent(eventId, [{
+        driver_id: created.id,
+        class: created.class ?? 'Standard',
+        team_id: null,
+      }]);
+      toast({ title: `${created.first_name} ${created.last_name} loodud ja lisatud!` });
+      setIsCreateDriverOpen(false);
+      newDriverForm.reset();
+      await onRefresh();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    } finally {
+      setCreatingDriver(false);
+    }
+  };
 
   const entryDriverIds = new Set(entries.map((e) => e.driver_id));
   const unregistered = allDrivers.filter(
@@ -448,9 +585,14 @@ function StepParticipants({
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Lisa osalejaid</CardTitle>
-            <Button onClick={handleAddAll} disabled={adding || unregistered.length === 0} variant="outline" size="sm">
-              Lisa kõik ({allDrivers.filter((d) => !entryDriverIds.has(d.id)).length})
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => setIsCreateDriverOpen(true)} variant="outline" size="sm">
+                <UserPlus className="mr-1 h-4 w-4" /> Lisa uus sõitja
+              </Button>
+              <Button onClick={handleAddAll} disabled={adding || unregistered.length === 0} variant="outline" size="sm">
+                Lisa kõik ({allDrivers.filter((d) => !entryDriverIds.has(d.id)).length})
+              </Button>
+            </div>
           </div>
           <Input
             placeholder="Otsi sõitjat..."
@@ -481,6 +623,63 @@ function StepParticipants({
           )}
         </CardContent>
       </Card>
+
+      {/* Create new driver dialog */}
+      <Dialog open={isCreateDriverOpen} onOpenChange={(open) => { setIsCreateDriverOpen(open); if (!open) newDriverForm.reset(); }}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Lisa uus sõitja</DialogTitle>
+            <DialogDescription>Sõitja luuakse globaalselt ja lisatakse kohe sellele etapile.</DialogDescription>
+          </DialogHeader>
+          <Form {...newDriverForm}>
+            <form onSubmit={newDriverForm.handleSubmit(handleCreateDriver)} className="space-y-4 py-2">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField control={newDriverForm.control} name="first_name" render={({ field }) => (
+                  <FormItem><FormLabel>Eesnimi</FormLabel><FormControl><Input placeholder="Evert" {...field} /></FormControl><FormMessage /></FormItem>
+                )} />
+                <FormField control={newDriverForm.control} name="last_name" render={({ field }) => (
+                  <FormItem><FormLabel>Perekonnanimi</FormLabel><FormControl><Input placeholder="Sild" {...field} /></FormControl><FormMessage /></FormItem>
+                )} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField control={newDriverForm.control} name="dob" render={({ field }) => (
+                  <FormItem><FormLabel>Sünnipäev</FormLabel><FormControl><Input type="date" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
+                )} />
+                <FormField control={newDriverForm.control} name="weight" render={({ field }) => (
+                  <FormItem><FormLabel>Kaal (kg)</FormLabel><FormControl><Input type="number" placeholder="75" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
+                )} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField control={newDriverForm.control} name="class" render={({ field }) => (
+                  <FormItem><FormLabel>Klass</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value ?? ''}>
+                      <FormControl><SelectTrigger><SelectValue placeholder="Vali klass" /></SelectTrigger></FormControl>
+                      <SelectContent>
+                        <SelectItem value="Junior">Junior</SelectItem>
+                        <SelectItem value="Standard">Standard</SelectItem>
+                        <SelectItem value="Heavy">Heavy</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={newDriverForm.control} name="is_licensed" render={({ field }) => (
+                  <FormItem className="flex flex-col justify-end pb-1">
+                    <div className="flex items-center gap-2">
+                      <FormControl><Checkbox checked={field.value ?? false} onCheckedChange={field.onChange} /></FormControl>
+                      <FormLabel className="cursor-pointer">Litsentseeritud</FormLabel>
+                    </div>
+                  </FormItem>
+                )} />
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => { setIsCreateDriverOpen(false); newDriverForm.reset(); }}>Tühista</Button>
+                <Button type="submit" disabled={creatingDriver}>{creatingDriver ? 'Loon...' : 'Loo ja lisa'}</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
 
       {/* Delete confirm 1 */}
       <AlertDialog open={!!deleteTarget && !deleteConfirm2} onOpenChange={() => setDeleteTarget(null)}>
@@ -673,12 +872,20 @@ function StepGroupSetup({
         </CardContent>
       </Card>
 
-      {/* Show existing groups */}
-      {q1Sessions.length > 0 && (
-        <SessionGroupCards sessions={q1Sessions} label="Q1" entries={entries} eventId={eventId} allSessions={allSessions} onRefresh={onRefresh} />
-      )}
-      {q2Sessions.length > 0 && (
-        <SessionGroupCards sessions={q2Sessions} label="Q2" entries={entries} eventId={eventId} allSessions={allSessions} onRefresh={onRefresh} />
+      {/* Show existing groups — Q1 left column, Q2 right column, paired by group letter */}
+      {(q1Sessions.length > 0 || q2Sessions.length > 0) && (
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-4">
+            {q1Sessions.map((s) => (
+              <SessionGroupCards key={s.id} sessions={[s]} label="Q1" entries={entries} eventId={eventId} allSessions={allSessions} onRefresh={onRefresh} />
+            ))}
+          </div>
+          <div className="space-y-4">
+            {q2Sessions.map((s) => (
+              <SessionGroupCards key={s.id} sessions={[s]} label="Q2" entries={entries} eventId={eventId} allSessions={allSessions} onRefresh={onRefresh} />
+            ))}
+          </div>
+        </div>
       )}
 
       {/* Clear confirm */}
@@ -993,7 +1200,7 @@ function SessionGroupCards({
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className={`grid gap-4${sessions.length > 1 ? ' md:grid-cols-2' : ''}`}>
         {sessions.map((session) => (
           <Card key={session.id}>
             <CardHeader className="pb-2">
@@ -1006,6 +1213,7 @@ function SessionGroupCards({
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-14">Start</TableHead>
                     <TableHead className="w-16">Kart</TableHead>
                     <TableHead>Sõitja</TableHead>
                     <TableHead className="w-16">Klass</TableHead>
@@ -1013,10 +1221,14 @@ function SessionGroupCards({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {session.participants.map((p) => {
+                  {session.participants
+                    .slice()
+                    .sort((a, b) => (a.grid_position ?? 999) - (b.grid_position ?? 999))
+                    .map((p) => {
                     const entry = entries.find((e) => e.driver_id === p.driver_id);
                     return (
                       <TableRow key={p.id}>
+                        <TableCell className="text-center font-mono text-sm">{p.grid_position ?? '–'}</TableCell>
                         <TableCell>
                           <Badge variant="secondary">{p.kart_number ?? '–'}</Badge>
                         </TableCell>
@@ -1104,6 +1316,7 @@ function StepResults({
   }, [sessions, activeSessionId]);
 
   const activeSession = sessions.find((s) => s.id === activeSessionId);
+  const isQuali = sessions.length > 0 && (sessions[0].type === 'quali_1' || sessions[0].type === 'quali_2');
 
   if (sessions.length === 0) {
     return (
@@ -1150,7 +1363,7 @@ function StepResults({
         </CardHeader>
         <CardContent>
           {/* Session tabs */}
-          <div className="flex gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-4">
             {sessions.map((s) => (
               <Button
                 key={s.id}
@@ -1163,18 +1376,66 @@ function StepResults({
                 {s.results.length > 0 && <Check className="ml-1 h-3 w-3" />}
               </Button>
             ))}
+            {isQuali && (
+              <Button
+                variant={activeSessionId === 'summary' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setActiveSessionId('summary')}
+              >
+                <Trophy className="mr-1 h-3 w-3" /> Kokkuvõte
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
 
-      {activeSession && (
+      {activeSessionId === 'summary' && isQuali ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Trophy className="h-5 w-5" />
+              Kvalifikatsiooni kokkuvõte
+            </CardTitle>
+            <CardDescription>Parim ring Q1 ja Q2 sessioonidest. Kiireimast aeglaseimani.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16">Koht</TableHead>
+                  <TableHead>Sõitja</TableHead>
+                  <TableHead>Klass</TableHead>
+                  <TableHead>Parim aeg</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rankDriversByBestLap(sessions).map((r) => {
+                  const entry = entries.find((e) => e.driver_id === r.driverId);
+                  return (
+                    <TableRow key={r.driverId}>
+                      <TableCell className="font-bold">{r.position ?? '–'}</TableCell>
+                      <TableCell className="font-medium">
+                        {entry ? driverName(entry.driver) : r.driverId}
+                      </TableCell>
+                      <TableCell><Badge variant="outline">{entry?.class ?? '–'}</Badge></TableCell>
+                      <TableCell className="font-mono">
+                        {r.bestLap != null ? millisToTimeStr(r.bestLap) : '–'}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      ) : activeSession ? (
         <SessionResultsEditor
           eventId={eventId}
           session={activeSession}
           entries={entries}
           onRefresh={onRefresh}
         />
-      )}
+      ) : null}
     </div>
   );
 }
@@ -1197,13 +1458,16 @@ function SessionResultsEditor({
   // Build initial results from existing data or participants
   const initResults = useCallback(() => {
     if (session.results.length > 0) {
-      return session.results.map((r) => ({
-        driverId: r.driver_id,
-        position: r.position?.toString() ?? '',
-        totalTime: r.total_time ?? '',
-        fastestLap: r.fastest_lap ?? '',
-        penaltyNote: r.penalty_note ?? '',
-      }));
+      return session.results
+        .slice()
+        .sort((a, b) => (a.position ?? 999) - (b.position ?? 999))
+        .map((r) => ({
+          driverId: r.driver_id,
+          position: r.position?.toString() ?? '',
+          totalTime: r.total_time ?? '',
+          fastestLap: r.fastest_lap ?? '',
+          penaltyNote: r.penalty_note ?? '',
+        }));
     }
     return session.participants.map((p, i) => ({
       driverId: p.driver_id,
@@ -1221,6 +1485,8 @@ function SessionResultsEditor({
 
   // Reset when session changes
   useEffect(() => { setResults(initResults()); }, [initResults]);
+
+  const isQualiSession = session.type === 'quali_1' || session.type === 'quali_2';
 
   // Map kart number → driver for this session
   const kartToDriver = useMemo(() => {
@@ -1372,7 +1638,7 @@ function SessionResultsEditor({
                   <TableHead className="w-16">Koht</TableHead>
                   <TableHead className="w-16">Kart</TableHead>
                   <TableHead>Sõitja</TableHead>
-                  <TableHead>Koguaeg</TableHead>
+                  {!isQualiSession && <TableHead>Koguaeg</TableHead>}
                   <TableHead>Parim ring</TableHead>
                 </TableRow>
               </TableHeader>
@@ -1390,7 +1656,7 @@ function SessionResultsEditor({
                           <span className="text-amber-600">Tundmatu kart #{row.kartNumber}</span>
                         )}
                       </TableCell>
-                      <TableCell>{row.totalTime}</TableCell>
+                      {!isQualiSession && <TableCell>{row.totalTime}</TableCell>}
                       <TableCell>{row.bestTime}</TableCell>
                     </TableRow>
                   );
@@ -1430,7 +1696,7 @@ function SessionResultsEditor({
                 <TableHead className="w-16">Kart</TableHead>
                 <TableHead>Sõitja</TableHead>
                 <TableHead>Klass</TableHead>
-                <TableHead>Koguaeg</TableHead>
+                {!isQualiSession && <TableHead>Koguaeg</TableHead>}
                 <TableHead>Parim ring</TableHead>
                 <TableHead>Karistus/märkused</TableHead>
               </TableRow>
@@ -1453,14 +1719,16 @@ function SessionResultsEditor({
                     </TableCell>
                     <TableCell className="font-medium">{getDriverName(r.driverId)}</TableCell>
                     <TableCell><Badge variant="outline">{entry?.class ?? '–'}</Badge></TableCell>
-                    <TableCell>
-                      <Input
-                        className="w-28 h-8"
-                        value={r.totalTime}
-                        onChange={(e) => updateResult(i, 'totalTime', e.target.value)}
-                        placeholder="06:52.363"
-                      />
-                    </TableCell>
+                    {!isQualiSession && (
+                      <TableCell>
+                        <Input
+                          className="w-28 h-8"
+                          value={r.totalTime}
+                          onChange={(e) => updateResult(i, 'totalTime', e.target.value)}
+                          placeholder="06:52.363"
+                        />
+                      </TableCell>
+                    )}
                     <TableCell>
                       <Input
                         className="w-28 h-8"

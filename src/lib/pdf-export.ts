@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import type { EventFullData } from '@/app/races/[eventId]/actions';
 import type { DriverClass } from '@/types/database';
+import { parseLapTime, millisToTimeStr } from '@/app/races/[eventId]/race-utils';
 
 // ============================================================
 // Types
@@ -38,22 +39,17 @@ function formatDate(dateStr: string | null): string {
   });
 }
 
-// ============================================================
-// Core builder — one section per session group
-// ============================================================
-
-function buildResultsPdf(
+/**
+ * Draw the standard page header. Returns the Y position immediately after the header.
+ */
+function drawPageHeader(
   doc: jsPDF,
-  title: string,
   eventName: string,
   eventDate: string | null,
-  sessions: Session[],
-  entries: Entry[],
-  columns: { header: string; key: string }[]
-): void {
+  sectionTitle: string
+): number {
   const pageWidth = doc.internal.pageSize.getWidth();
 
-  // ----- Title block -----
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
   doc.text('CORNER 1 HOBIKARDISARI', pageWidth / 2, 16, { align: 'center' });
@@ -63,65 +59,102 @@ function buildResultsPdf(
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
+  let y = 23;
   if (eventDate) {
     doc.text(formatDate(eventDate), pageWidth / 2, 29, { align: 'center' });
+    y = 29;
   }
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
-  doc.text(title, pageWidth / 2, 37, { align: 'center' });
+  doc.text(sectionTitle, pageWidth / 2, y + 8, { align: 'center' });
 
-  let startY = 43;
+  return y + 14;
+}
 
-  // ----- One table per session group -----
-  for (const session of sessions) {
+function addPageFooter(doc: jsPDF): void {
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const pageCount = doc.getNumberOfPages();
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(120);
+  doc.text(`Lehekülg ${pageCount}`, pageWidth - 14, pageHeight - 8, { align: 'right' });
+  doc.setTextColor(0);
+}
+
+// ============================================================
+// Core builder — one page per session group
+// ============================================================
+
+/**
+ * Render sessions into `doc`. Each session group gets its own page.
+ * @param startOnNewPage  pass true when appending a section after a previous one.
+ */
+function buildResultsPdf(
+  doc: jsPDF,
+  title: string,
+  eventName: string,
+  eventDate: string | null,
+  sessions: Session[],
+  entries: Entry[],
+  columns: { header: string; key: string }[],
+  startOnNewPage = false
+): void {
+  for (let si = 0; si < sessions.length; si++) {
+    if (si > 0 || startOnNewPage) {
+      doc.addPage();
+    }
+
+    const headerEndY = drawPageHeader(doc, eventName, eventDate, title);
+    const session = sessions[si];
+
+    // Session group label
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text(sessionLabel(session.type, session.group_name), 14, headerEndY + 2);
+
+    const tableStartY = headerEndY + 8;
+
     const sorted = [...session.results].sort(
       (a, b) => (a.position ?? 999) - (b.position ?? 999)
     );
 
-    // Find kart number for each driver from participants
     const kartMap = new Map<string, number | null>();
     for (const p of session.participants) {
       kartMap.set(p.driver_id, p.kart_number);
     }
 
-    const entry = (driverId: string): Entry | undefined =>
+    const getEntry = (driverId: string): Entry | undefined =>
       entries.find((e) => e.driver_id === driverId);
 
-    const rows = sorted.map((r) => {
-      const e = entry(r.driver_id);
-      const driverFullName = `${r.driver.first_name} ${r.driver.last_name}`;
-      return {
-        position: r.position ?? '–',
-        kart: kartMap.get(r.driver_id) ?? '–',
-        name: driverFullName,
-        class: e?.class ?? '–',
-        totalTime: r.total_time ?? '–',
-        fastestLap: r.fastest_lap ?? '–',
-        penalty: r.penalty_note ?? '',
-      };
-    });
-
-    // If no results yet, still show participant list
-    if (sorted.length === 0) {
-      const participantRows = session.participants.map((p, i) => ({
-        position: '',
-        kart: p.kart_number ?? '–',
-        name: `${p.driver.first_name} ${p.driver.last_name}`,
-        class: entry(p.driver_id)?.class ?? '–',
-        totalTime: '',
-        fastestLap: '',
-        penalty: '',
-      }));
-      rows.push(...participantRows);
-    }
+    const rows =
+      sorted.length > 0
+        ? sorted.map((r) => ({
+            position: r.position ?? '–',
+            kart: kartMap.get(r.driver_id) ?? '–',
+            name: `${r.driver.first_name} ${r.driver.last_name}`,
+            class: getEntry(r.driver_id)?.class ?? '–',
+            totalTime: r.total_time ?? '–',
+            fastestLap: r.fastest_lap ?? '–',
+            penalty: r.penalty_note ?? '',
+          }))
+        : session.participants.map((p) => ({
+            position: '',
+            kart: p.kart_number ?? '–',
+            name: `${p.driver.first_name} ${p.driver.last_name}`,
+            class: getEntry(p.driver_id)?.class ?? '–',
+            totalTime: '',
+            fastestLap: '',
+            penalty: '',
+          }));
 
     autoTable(doc, {
-      startY,
-      head: [[
-        ...columns.map((c) => c.header),
-      ]],
-      body: rows.map((r) => columns.map((c) => String((r as Record<string, unknown>)[c.key] ?? ''))),
+      startY: tableStartY,
+      head: [columns.map((c) => c.header)],
+      body: rows.map((r) =>
+        columns.map((c) => String((r as Record<string, unknown>)[c.key] ?? ''))
+      ),
       theme: 'grid',
       headStyles: {
         fillColor: [30, 30, 30],
@@ -135,44 +168,76 @@ function buildResultsPdf(
         cellPadding: 2,
       },
       columnStyles: {
-        0: { cellWidth: 12, halign: 'center' }, // Koht
-        1: { cellWidth: 14, halign: 'center' }, // Kart
+        0: { cellWidth: 12, halign: 'center' },
+        1: { cellWidth: 14, halign: 'center' },
       },
-      didDrawPage: (_data) => {
-        // Page footer
-        const pageCount = doc.getNumberOfPages();
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        doc.setTextColor(120);
-        doc.text(
-          `Lehekülg ${pageCount}`,
-          pageWidth - 14,
-          doc.internal.pageSize.getHeight() - 8,
-          { align: 'right' }
-        );
-        doc.setTextColor(0);
-      },
+      didDrawPage: () => addPageFooter(doc),
     });
+  }
+}
 
-    // Group heading BEFORE the table (redrawn over the gap)
-    const tableStartY = startY;
+// ============================================================
+// Quali summary page (Kokkuvõte)
+// ============================================================
 
-    // Draw group label as a sub-header just above the table
-    const labelY = tableStartY - 3;
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text(sessionLabel(session.type, session.group_name), 14, labelY);
+function buildQualiSummaryPage(
+  doc: jsPDF,
+  eventName: string,
+  eventDate: string | null,
+  sessions: Session[],
+  entries: Entry[]
+): void {
+  doc.addPage();
+  const headerEndY = drawPageHeader(doc, eventName, eventDate, 'Kvalifikatsioon');
 
-    // Move cursor past this table
-    const lastTable = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable;
-    startY = (lastTable?.finalY ?? startY) + 10;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('Kokkuvõte — Parim ring Q1 / Q2', 14, headerEndY + 2);
 
-    // New page if too close to bottom
-    if (startY > doc.internal.pageSize.getHeight() - 30) {
-      doc.addPage();
-      startY = 20;
+  // Compute best lap per driver across all quali sessions
+  const bestLaps = new Map<string, { ms: number; name: string; driverClass: string }>();
+  for (const session of sessions) {
+    for (const r of session.results) {
+      const ms = parseLapTime(r.fastest_lap);
+      if (ms !== null) {
+        const existing = bestLaps.get(r.driver_id);
+        if (!existing || ms < existing.ms) {
+          const entry = entries.find((e) => e.driver_id === r.driver_id);
+          bestLaps.set(r.driver_id, {
+            ms,
+            name: `${r.driver.first_name} ${r.driver.last_name}`,
+            driverClass: entry?.class ?? '–',
+          });
+        }
+      }
     }
   }
+
+  const ranked = Array.from(bestLaps.values())
+    .sort((a, b) => a.ms - b.ms)
+    .map((v, i) => [String(i + 1), v.name, v.driverClass, millisToTimeStr(v.ms)]);
+
+  autoTable(doc, {
+    startY: headerEndY + 8,
+    head: [['Koht', 'Sõitja', 'Klass', 'Parim ring']],
+    body: ranked,
+    theme: 'grid',
+    headStyles: {
+      fillColor: [30, 30, 30],
+      textColor: 255,
+      fontStyle: 'bold',
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    bodyStyles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    columnStyles: {
+      0: { cellWidth: 12, halign: 'center' },
+    },
+    didDrawPage: () => addPageFooter(doc),
+  });
 }
 
 // ============================================================
@@ -206,6 +271,7 @@ export function exportQualiResults(
 ): void {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   buildResultsPdf(doc, 'Kvalifikatsioon', eventName, eventDate, sessions, entries, QUALI_COLUMNS);
+  buildQualiSummaryPage(doc, eventName, eventDate, sessions, entries);
   doc.save(`${eventName.replace(/\s+/g, '_')}_kvalifikatsioon.pdf`);
 }
 
@@ -257,7 +323,6 @@ export function exportAllResults(
     sections.push({ title: 'Finaalid', sessions: finalSessions, columns: SESSION_COLUMNS });
 
   for (let i = 0; i < sections.length; i++) {
-    if (i > 0) doc.addPage();
     buildResultsPdf(
       doc,
       sections[i].title,
@@ -265,8 +330,13 @@ export function exportAllResults(
       eventDate,
       sections[i].sessions,
       entries,
-      sections[i].columns
+      sections[i].columns,
+      i > 0 // startOnNewPage for all sections after the first
     );
+    // Add Kokkuvõte page after quali section
+    if (sections[i].title === 'Kvalifikatsioon') {
+      buildQualiSummaryPage(doc, eventName, eventDate, qualiSessions, entries);
+    }
   }
 
   doc.save(`${eventName.replace(/\s+/g, '_')}_kõik_tulemused.pdf`);
