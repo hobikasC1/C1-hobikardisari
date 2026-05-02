@@ -25,24 +25,22 @@ export interface RankedDriver {
 // Time parsing
 // ============================================================
 
-/** Parse "MM:SS.mmm" or "SS.mmm" to milliseconds. Returns null if invalid. */
+/** Parse "MM:SS.mmm", "SS.mmm", "M.SS.mmm" to milliseconds. Returns null if invalid. */
 export function parseLapTime(time: string | null): number | null {
   if (!time) return null;
   const clean = time.trim();
 
-  // MM:SS.mmm
-  const full = clean.match(/^(\d+):(\d{2})\.(\d{3})$/);
-  if (full) {
-    return parseInt(full[1]) * 60000 + parseInt(full[2]) * 1000 + parseInt(full[3]);
-  }
+  // Re-use the more flexible regex used in utils.ts
+  const LAP_TIME_REGEX = /^(?:(\d{1,2})[:.])?(\d{1,2})[:.](\d{1,3})$/;
+  const match = clean.match(LAP_TIME_REGEX);
+  if (!match) return null;
 
-  // SS.mmm
-  const short = clean.match(/^(\d+)\.(\d{3})$/);
-  if (short) {
-    return parseInt(short[1]) * 1000 + parseInt(short[2]);
-  }
+  const minutes = parseInt(match[1] || '0', 10);
+  const seconds = parseInt(match[2], 10);
+  // padEnd to handle cases where user might have typed 59.2 instead of 59.200
+  const milliseconds = parseInt(match[3].padEnd(3, '0').substring(0, 3), 10);
 
-  return null;
+  return minutes * 60000 + seconds * 1000 + milliseconds;
 }
 
 export function millisToTimeStr(ms: number): string {
@@ -61,7 +59,7 @@ export function millisToTimeStr(ms: number): string {
 
 /**
  * Recommend optimal group count given participant count and max karts.
- * Rules: no group smaller than 3 drivers, groups as equal as possible.
+ * Rules: fastest groups filled to max, last group gets overflow, padded to at least 3 if possible.
  */
 export function recommendGroupCount(participantCount: number, maxKarts: number): number {
   if (participantCount <= 0 || maxKarts <= 0) return 0;
@@ -69,26 +67,44 @@ export function recommendGroupCount(participantCount: number, maxKarts: number):
 
   const groupCount = Math.ceil(participantCount / maxKarts);
 
-  // Check that smallest group is at least 3
-  const minGroupSize = Math.floor(participantCount / groupCount);
-  if (minGroupSize < 3 && groupCount > 1) {
-    return groupCount - 1;
-  }
-
   return groupCount;
 }
 
 /**
- * Get group sizes that are as equal as possible.
- * e.g. 17 drivers in 2 groups → [9, 8]
+ * Get group sizes aiming to fill fastest groups to max, passing overflow backward.
+ * e.g. 19 drivers with 9 max karts in 3 groups → [9, 7, 3] (ensures last group has >= 3)
  */
-export function getGroupSizes(participantCount: number, groupCount: number): number[] {
+export function getGroupSizes(participantCount: number, groupCount: number, maxKarts: number): number[] {
   if (groupCount <= 0) return [];
-  const base = Math.floor(participantCount / groupCount);
-  const remainder = participantCount % groupCount;
-  return Array.from({ length: groupCount }, (_, i) =>
-    i < remainder ? base + 1 : base
-  );
+  
+  const sizes = new Array(groupCount).fill(0);
+  let remaining = participantCount;
+  
+  for (let i = 0; i < groupCount; i++) {
+    const take = Math.min(maxKarts, remaining);
+    sizes[i] = take;
+    remaining -= take;
+  }
+  
+  // Ensure the last group has at least 3 drivers (if possible, pulling from previous groups)
+  const MIN_GROUP_SIZE = 3;
+  if (groupCount > 1 && sizes[groupCount - 1] > 0 && sizes[groupCount - 1] < MIN_GROUP_SIZE) {
+    let needed = MIN_GROUP_SIZE - sizes[groupCount - 1];
+    let donorIdx = groupCount - 2;
+    
+    while (needed > 0 && donorIdx >= 0) {
+      const availableToDonate = Math.max(0, sizes[donorIdx] - MIN_GROUP_SIZE);
+      const donate = Math.min(needed, availableToDonate);
+      
+      sizes[donorIdx] -= donate;
+      sizes[groupCount - 1] += donate;
+      needed -= donate;
+      
+      donorIdx--;
+    }
+  }
+  
+  return sizes;
 }
 
 // ============================================================
@@ -155,11 +171,12 @@ export function assignKarts(
 export function generateQualiGroups(
   driverIds: string[],
   groupCount: number,
+  maxKarts: number,
   availableKarts: number[],
   previousKarts: Map<string, Set<number>> = new Map()
 ): GeneratedGroup[] {
   const shuffled = shuffleArray(driverIds);
-  const sizes = getGroupSizes(shuffled.length, groupCount);
+  const sizes = getGroupSizes(shuffled.length, groupCount, maxKarts);
   const groupNames = 'ABCDEFGHIJKLMNOP'.split('');
 
   const groups: GeneratedGroup[] = [];
@@ -194,12 +211,13 @@ export function generateQualiGroups(
 export function generateHeatGroups(
   rankedDrivers: RankedDriver[],
   groupCount: number,
+  maxKarts: number,
   availableKarts: number[],
   previousKarts: Map<string, Set<number>> = new Map()
 ): GeneratedGroup[] {
   const groupNames = 'ABCDEFGHIJKLMNOP'.split('');
   // Pre-compute target sizes so first (faster) groups get extra drivers
-  const sizes = getGroupSizes(rankedDrivers.length, groupCount);
+  const sizes = getGroupSizes(rankedDrivers.length, groupCount, maxKarts);
   const groups: string[][] = Array.from({ length: groupCount }, () => []);
 
   // Snake draft with size caps: skip full groups so extras go to earlier groups
@@ -256,11 +274,12 @@ export function generateHeatGroups(
 export function generateFinalGroups(
   rankedDrivers: RankedDriver[],
   groupCount: number,
+  maxKarts: number,
   availableKarts: number[],
   previousKarts: Map<string, Set<number>> = new Map()
 ): GeneratedGroup[] {
   const groups: string[][] = Array.from({ length: groupCount }, () => []);
-  const sizes = getGroupSizes(rankedDrivers.length, groupCount);
+  const sizes = getGroupSizes(rankedDrivers.length, groupCount, maxKarts);
 
   let offset = 0;
   for (let i = 0; i < groupCount; i++) {

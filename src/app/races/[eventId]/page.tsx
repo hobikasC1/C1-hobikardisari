@@ -234,6 +234,7 @@ export default function EventPage() {
           title="Kvalifikatsiooni grupid"
           description="Q1 ja Q2 — samad grupid, erinevad kardid. Parim ring kahest sessioonist läheb kirja."
           onRefresh={loadData}
+          maxKarts={event?.max_karts ?? 9}
         />
       )}
       {step === 'quali_results' && (
@@ -256,6 +257,7 @@ export default function EventPage() {
           availableKarts={availableKarts}
           allSessions={sessions}
           onRefresh={loadData}
+          maxKarts={event?.max_karts ?? 9}
         />
       )}
       {step === 'heat_results' && (
@@ -278,6 +280,7 @@ export default function EventPage() {
           availableKarts={availableKarts}
           allSessions={sessions}
           onRefresh={loadData}
+          maxKarts={event?.max_karts ?? 9}
         />
       )}
       {step === 'final_results' && (
@@ -728,7 +731,7 @@ function StepParticipants({
 
 function StepGroupSetup({
   eventId, entries, sessions, sessionType, availableKarts, allSessions,
-  title, description, onRefresh,
+  title, description, onRefresh, maxKarts,
 }: {
   eventId: string;
   entries: EventFullData['entries'];
@@ -738,6 +741,7 @@ function StepGroupSetup({
   allSessions: EventFullData['sessions'];
   title: string;
   description: string;
+  maxKarts: number;
   onRefresh: () => Promise<void>;
 }) {
   const { toast } = useToast();
@@ -774,7 +778,7 @@ function StepGroupSetup({
       const previousKarts = buildPreviousKartsMap(allSessions);
 
       // Generate Q1 groups
-      const q1Groups = generateQualiGroups(driverIds, groupCount, availableKarts, previousKarts);
+      const q1Groups = generateQualiGroups(driverIds, groupCount, maxKarts, availableKarts, previousKarts);
 
       await createSessions(eventId, 'quali_1', q1Groups);
 
@@ -796,7 +800,7 @@ function StepGroupSetup({
         for (const k of karts) q2PreviousKarts.get(dId)!.add(k);
       }
 
-      const q2Groups = generateQualiGroups(driverIds, groupCount, availableKarts, q2PreviousKarts);
+      const q2Groups = generateQualiGroups(driverIds, groupCount, maxKarts, availableKarts, q2PreviousKarts);
       // Keep same group assignments from Q1, only change karts
       const q2WithSameGroups = q1Groups.map((q1g, i) => ({
         groupName: q1g.groupName,
@@ -912,7 +916,7 @@ function StepGroupSetup({
 // ============================================================
 
 function StepHeatSetup({
-  eventId, entries, qualiSessions, heatSessions, availableKarts, allSessions, onRefresh,
+  eventId, entries, qualiSessions, heatSessions, availableKarts, allSessions, onRefresh, maxKarts,
 }: {
   eventId: string;
   entries: EventFullData['entries'];
@@ -920,6 +924,7 @@ function StepHeatSetup({
   heatSessions: EventFullData['sessions'];
   availableKarts: number[];
   allSessions: EventFullData['sessions'];
+  maxKarts: number;
   onRefresh: () => Promise<void>;
 }) {
   const { toast } = useToast();
@@ -947,7 +952,7 @@ function StepHeatSetup({
       // Rank by best lap from quali sessions
       const ranked = rankDriversByBestLap(qualiSessions);
       const previousKarts = buildPreviousKartsMap(allSessions);
-      const groups = generateHeatGroups(ranked, groupCount, availableKarts, previousKarts);
+      const groups = generateHeatGroups(ranked, groupCount, maxKarts, availableKarts, previousKarts);
 
       // Clear existing heats
       if (heatSessions.length > 0) {
@@ -1043,7 +1048,7 @@ function StepHeatSetup({
 // ============================================================
 
 function StepFinalSetup({
-  eventId, entries, heatSessions, finalSessions, availableKarts, allSessions, onRefresh,
+  eventId, entries, heatSessions, finalSessions, availableKarts, allSessions, onRefresh, maxKarts,
 }: {
   eventId: string;
   entries: EventFullData['entries'];
@@ -1051,6 +1056,7 @@ function StepFinalSetup({
   finalSessions: EventFullData['sessions'];
   availableKarts: number[];
   allSessions: EventFullData['sessions'];
+  maxKarts: number;
   onRefresh: () => Promise<void>;
 }) {
   const { toast } = useToast();
@@ -1077,7 +1083,7 @@ function StepFinalSetup({
     try {
       const ranked = rankDriversByPosition(heatSessions);
       const previousKarts = buildPreviousKartsMap(allSessions);
-      const groups = generateFinalGroups(ranked, groupCount, availableKarts, previousKarts);
+      const groups = generateFinalGroups(ranked, groupCount, maxKarts, availableKarts, previousKarts);
 
       if (finalSessions.length > 0) {
         await clearSessionsByType(eventId, 'final');
