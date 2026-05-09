@@ -80,7 +80,7 @@ export async function getSeasonStandings(): Promise<SeasonStandingsData> {
     const [entriesRes, sessionsRes] = await Promise.all([
       supabase
         .from('event_entries')
-        .select('driver_id, class, is_excluded_from_points, driver:drivers(first_name, last_name)')
+        .select('driver_id, class, is_excluded_from_points, points_adjustment, points_adjustment_note, driver:drivers(first_name, last_name)')
         .eq('event_id', event.id),
       supabase
         .from('sessions')

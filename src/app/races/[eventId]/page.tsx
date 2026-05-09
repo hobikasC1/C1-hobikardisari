@@ -47,8 +47,10 @@ import {
   addParticipantsToEvent,
   removeParticipantFromEvent,
   toggleExcludeFromPoints,
+  updatePointsAdjustment,
   createSessions,
   clearSessionsByType,
+  reassignQuali2Karts,
   saveSessionResults,
   deleteSessionResult,
   moveParticipantBetweenSessions,
@@ -61,6 +63,7 @@ import { getDrivers, createDriver } from '@/app/drivers/actions';
 import { extractResultsFromImage, type OcrResultRow } from '@/lib/ocr';
 import {
   recommendGroupCount,
+  getGroupSizes,
   generateQualiGroups,
   generateHeatGroups,
   generateFinalGroups,
@@ -346,7 +349,8 @@ function StepKartSettings({
         .split(',')
         .map((s) => parseInt(s.trim(), 10))
         .filter((n) => !isNaN(n));
-      await updateKartSettings(eventId, maxKarts, parsed);
+      const unique = Array.from(new Set(parsed));
+      await updateKartSettings(eventId, maxKarts, unique);
       toast({ title: 'Kardi seaded salvestatud!' });
       await onRefresh();
     } catch (err) {
@@ -426,6 +430,8 @@ function StepParticipants({
   const [deleteConfirm2, setDeleteConfirm2] = useState(false);
   const [isCreateDriverOpen, setIsCreateDriverOpen] = useState(false);
   const [creatingDriver, setCreatingDriver] = useState(false);
+  const [adjustmentDrafts, setAdjustmentDrafts] = useState<Record<string, string>>({});
+  const [adjustmentNotes, setAdjustmentNotes] = useState<Record<string, string>>({});
 
   const newDriverForm = useForm<NewDriverValues>({
     resolver: zodResolver(newDriverSchema),
@@ -463,6 +469,32 @@ function StepParticipants({
   const unregistered = allDrivers.filter(
     (d) => !entryDriverIds.has(d.id) && `${d.first_name} ${d.last_name}`.toLowerCase().includes(search.toLowerCase())
   );
+
+  useEffect(() => {
+    const nextDrafts: Record<string, string> = {};
+    const nextNotes: Record<string, string> = {};
+    for (const entry of entries) {
+      nextDrafts[entry.id] = String(entry.points_adjustment ?? 0);
+      nextNotes[entry.id] = entry.points_adjustment_note ?? '';
+    }
+    setAdjustmentDrafts(nextDrafts);
+    setAdjustmentNotes(nextNotes);
+  }, [entries]);
+
+  const saveAdjustment = async (entryId: string) => {
+    const raw = adjustmentDrafts[entryId] ?? '0';
+    const parsed = parseInt(raw, 10);
+    const pointsAdjustment = Number.isNaN(parsed) ? 0 : parsed;
+    const note = (adjustmentNotes[entryId] ?? '').trim();
+
+    try {
+      await updatePointsAdjustment(eventId, entryId, pointsAdjustment, note.length > 0 ? note : null);
+      toast({ title: 'Punktide korrigeerimine salvestatud!' });
+      await onRefresh();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    }
+  };
 
   const handleAddAll = async () => {
     setAdding(true);
@@ -541,6 +573,8 @@ function StepParticipants({
                   <TableHead>Kaal</TableHead>
                   <TableHead>Litsents</TableHead>
                   <TableHead>Punktideta</TableHead>
+                  <TableHead className="w-24">Punktid +/-</TableHead>
+                  <TableHead>Põhjus</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
@@ -559,6 +593,24 @@ function StepParticipants({
                           await toggleExcludeFromPoints(eventId, entry.id, !!checked);
                           await onRefresh();
                         }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="number"
+                        className="w-20 h-8"
+                        value={adjustmentDrafts[entry.id] ?? '0'}
+                        onChange={(e) => setAdjustmentDrafts((prev) => ({ ...prev, [entry.id]: e.target.value }))}
+                        onBlur={() => saveAdjustment(entry.id)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        className="h-8"
+                        value={adjustmentNotes[entry.id] ?? ''}
+                        onChange={(e) => setAdjustmentNotes((prev) => ({ ...prev, [entry.id]: e.target.value }))}
+                        onBlur={() => saveAdjustment(entry.id)}
+                        placeholder="nt. -10 hiline karistus"
                       />
                     </TableCell>
                     <TableCell>
@@ -747,30 +799,53 @@ function StepGroupSetup({
   const { toast } = useToast();
   const [groupCount, setGroupCount] = useState(0);
   const [generating, setGenerating] = useState(false);
+  const [reassigning, setReassigning] = useState(false);
   const [clearConfirm, setClearConfirm] = useState(false);
+  const [regenConfirm, setRegenConfirm] = useState(false);
+  const [reassignConfirm, setReassignConfirm] = useState(false);
 
   // Existing sessions for this type
   const q1Sessions = sessions.filter((s) => s.type === 'quali_1');
   const q2Sessions = sessions.filter((s) => s.type === 'quali_2');
   const hasGroups = q1Sessions.length > 0 || sessions.length > 0;
+  const uniqueKarts = useMemo(() => Array.from(new Set(availableKarts)), [availableKarts]);
 
   // Auto-recommend group count
   const recommended = useMemo(
-    () => recommendGroupCount(entries.length, availableKarts.length || 9),
-    [entries.length, availableKarts.length]
+    () => recommendGroupCount(entries.length, maxKarts || 9),
+    [entries.length, maxKarts]
   );
 
   useEffect(() => { setGroupCount(recommended); }, [recommended]);
 
-  const handleGenerate = async () => {
+  const groupSizes = useMemo(
+    () => getGroupSizes(entries.length, groupCount, maxKarts),
+    [entries.length, groupCount, maxKarts]
+  );
+  const maxGroupSize = groupSizes.length > 0 ? Math.max(...groupSizes) : 0;
+
+  const ensureKartsAreValid = () => {
+    if (uniqueKarts.length === 0) {
+      toast({ title: 'Sisesta kõigepealt kardinumbrid etapi seadetes!', variant: 'destructive' });
+      return false;
+    }
+    if (maxGroupSize > 0 && uniqueKarts.length < maxGroupSize) {
+      toast({
+        title: 'Liiga vähe unikaalseid kardinumbreid',
+        description: `Gruppides on kuni ${maxGroupSize} sõitjat, aga kardinumbreid on ${uniqueKarts.length}. Vähenda max karti või lisa puuduvaid numbreid.`,
+        variant: 'destructive',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const doGenerate = async () => {
     if (entries.length === 0) {
       toast({ title: 'Lisa kõigepealt osalejad!', variant: 'destructive' });
       return;
     }
-    if (availableKarts.length === 0) {
-      toast({ title: 'Sisesta kõigepealt kardinumbrid etapi seadetes!', variant: 'destructive' });
-      return;
-    }
+    if (!ensureKartsAreValid()) return;
 
     setGenerating(true);
     try {
@@ -778,7 +853,7 @@ function StepGroupSetup({
       const previousKarts = buildPreviousKartsMap(allSessions);
 
       // Generate Q1 groups
-      const q1Groups = generateQualiGroups(driverIds, groupCount, maxKarts, availableKarts, previousKarts);
+      const q1Groups = generateQualiGroups(driverIds, groupCount, maxKarts, uniqueKarts, previousKarts);
 
       await createSessions(eventId, 'quali_1', q1Groups);
 
@@ -800,7 +875,7 @@ function StepGroupSetup({
         for (const k of karts) q2PreviousKarts.get(dId)!.add(k);
       }
 
-      const q2Groups = generateQualiGroups(driverIds, groupCount, maxKarts, availableKarts, q2PreviousKarts);
+      const q2Groups = generateQualiGroups(driverIds, groupCount, maxKarts, uniqueKarts, q2PreviousKarts);
       // Keep same group assignments from Q1, only change karts
       const q2WithSameGroups = q1Groups.map((q1g, i) => ({
         groupName: q1g.groupName,
@@ -818,6 +893,51 @@ function StepGroupSetup({
       toast({ title: 'Viga', description: String(err), variant: 'destructive' });
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const handleGenerate = async () => {
+    if (hasGroups) {
+      setRegenConfirm(true);
+      return;
+    }
+    await doGenerate();
+  };
+
+  const confirmRegenerate = async () => {
+    setRegenConfirm(false);
+    try {
+      await clearSessionsByType(eventId, 'quali_1');
+      await clearSessionsByType(eventId, 'quali_2');
+      await doGenerate();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    }
+  };
+
+  const handleReassignQ2 = async () => {
+    if (q2Sessions.length === 0) return;
+    if (!ensureKartsAreValid()) return;
+
+    const q2MaxGroupSize = Math.max(...q2Sessions.map((s) => s.participants.length), 0);
+    if (uniqueKarts.length < q2MaxGroupSize) {
+      toast({
+        title: 'Liiga vähe unikaalseid kardinumbreid',
+        description: `Q2 gruppides on kuni ${q2MaxGroupSize} sõitjat, aga kardinumbreid on ${uniqueKarts.length}.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setReassigning(true);
+    try {
+      await reassignQuali2Karts(eventId, uniqueKarts);
+      toast({ title: 'Q2 kardinumbreid uuendatud!' });
+      await onRefresh();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    } finally {
+      setReassigning(false);
     }
   };
 
@@ -861,6 +981,15 @@ function StepGroupSetup({
                 <Shuffle className="mr-2 h-4 w-4" />
                 {hasGroups ? 'Genereeri uuesti' : 'Genereeri grupid'}
               </Button>
+              {q2Sessions.length > 0 && (
+                <Button
+                  variant="secondary"
+                  onClick={() => setReassignConfirm(true)}
+                  disabled={reassigning}
+                >
+                  {reassigning ? 'Uuendan Q2 kardi...' : 'Uuenda ainult Q2 kardid'}
+                </Button>
+              )}
               {hasGroups && (
                 <Button variant="destructive" onClick={() => setClearConfirm(true)}>
                   <Trash2 className="mr-2 h-4 w-4" />
@@ -871,7 +1000,7 @@ function StepGroupSetup({
           </div>
 
           <p className="text-sm text-muted-foreground">
-            {entries.length} osalejat · {availableKarts.length} karti · {groupCount > 0 ? `~${Math.ceil(entries.length / groupCount)} sõitjat grupis` : ''}
+            {entries.length} osalejat · {uniqueKarts.length} karti · {groupCount > 0 ? `~${Math.ceil(entries.length / groupCount)} sõitjat grupis` : ''}
           </p>
         </CardContent>
       </Card>
@@ -903,6 +1032,40 @@ function StepGroupSetup({
             <AlertDialogCancel>Tühista</AlertDialogCancel>
             <AlertDialogAction onClick={handleClear} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
               Kustuta
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={regenConfirm} onOpenChange={setRegenConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Genereeri kvali grupid uuesti?</AlertDialogTitle>
+            <AlertDialogDescription>
+              See kustutab olemasolevad Q1 ja Q2 grupid ning kõik nende tulemused.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Tühista</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmRegenerate} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Kustuta ja genereeri
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={reassignConfirm} onOpenChange={setReassignConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Uuendada ainult Q2 kardinumbreid?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Q1 tulemused ja grupid jäävad alles. Muutuvad ainult Q2 kardinumbreid.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Tühista</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { setReassignConfirm(false); handleReassignQ2(); }}>
+              Uuenda Q2 kardi
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

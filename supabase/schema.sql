@@ -20,6 +20,8 @@ CREATE TABLE public.event_entries (
   class text NOT NULL CHECK (class = ANY (ARRAY['Junior'::text, 'Standard'::text, 'Heavy'::text])),
   team_id uuid,
   is_excluded_from_points boolean NOT NULL DEFAULT false,
+  points_adjustment integer NOT NULL DEFAULT 0,
+  points_adjustment_note text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   CONSTRAINT event_entries_pkey PRIMARY KEY (id),
   CONSTRAINT event_entries_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.events(id),

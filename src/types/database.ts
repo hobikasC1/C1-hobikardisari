@@ -62,6 +62,8 @@ export interface EventEntry {
   class: DriverClass;
   team_id: string | null;
   is_excluded_from_points: boolean;
+  points_adjustment: number;
+  points_adjustment_note: string | null;
   created_at: string;
 }
 

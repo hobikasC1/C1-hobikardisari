@@ -39,6 +39,8 @@ export interface PointsInputEntry {
   driver_id: string;
   class: DriverClass;
   is_excluded_from_points: boolean;
+  points_adjustment: number;
+  points_adjustment_note?: string | null;
 }
 
 export interface PointsInputResult {
@@ -68,6 +70,7 @@ export interface DriverEventPoints {
   heatPoints: number;
   finalPoints: number;
   fastestLapBonus: number;
+  pointsAdjustment: number;
   totalPoints: number;
 }
 
@@ -112,6 +115,7 @@ export function calculateEventPoints(data: PointsInput): Map<string, DriverEvent
         heatPoints: 0,
         finalPoints: 0,
         fastestLapBonus: 0,
+        pointsAdjustment: 0,
         totalPoints: 0,
       });
     }
@@ -125,15 +129,26 @@ export function calculateEventPoints(data: PointsInput): Map<string, DriverEvent
   const driverClass = new Map<string, DriverClass>(
     data.entries.map((e) => [e.driver_id, e.class])
   );
+  const adjustments = new Map<string, number>(
+    data.entries.map((e) => [e.driver_id, e.points_adjustment ?? 0])
+  );
+
+  for (const entry of data.entries) {
+    init(entry.driver_id).pointsAdjustment = entry.points_adjustment ?? 0;
+  }
 
   // ---- Heat points ------------------------------------------------
   const heatSessions = data.sessions.filter((s) => s.type === 'heat');
   for (const session of heatSessions) {
-    for (const r of session.results) {
-      if (excluded.has(r.driver_id) || r.position == null) continue;
-      const pts = HEAT_POINTS[r.position] ?? 0;
+    const ranked = session.results
+      .filter((r) => r.position != null)
+      .sort((a, b) => (a.position ?? 999) - (b.position ?? 999));
+    const eligible = ranked.filter((r) => !excluded.has(r.driver_id));
+
+    eligible.forEach((r, idx) => {
+      const pts = HEAT_POINTS[idx + 1] ?? 0;
       init(r.driver_id).heatPoints += pts;
-    }
+    });
   }
 
   // ---- Final points (per class) -----------------------------------
@@ -161,9 +176,9 @@ export function calculateEventPoints(data: PointsInput): Map<string, DriverEvent
   for (const [, classResults] of byClass) {
     // Sort by finishing position (all final groups combined, within class)
     classResults.sort((a, b) => a.position - b.position);
-    for (let i = 0; i < classResults.length; i++) {
-      const r = classResults[i];
-      if (excluded.has(r.driverId)) continue;
+    const eligible = classResults.filter((r) => !excluded.has(r.driverId));
+    for (let i = 0; i < eligible.length; i++) {
+      const r = eligible[i];
       const pts = FINAL_POINTS[i] ?? 0;
       init(r.driverId).finalPoints += pts;
     }
@@ -176,6 +191,7 @@ export function calculateEventPoints(data: PointsInput): Map<string, DriverEvent
   for (const session of finalSessions) {
     for (const r of session.results) {
       if (!r.fastest_lap) continue;
+      if (excluded.has(r.driver_id)) continue;
       const ms = parseLapMs(r.fastest_lap);
       if (ms > 0) {
         lapTimes.push({ driverId: r.driver_id, lapMs: ms, sessionId: session.id });
@@ -204,7 +220,8 @@ export function calculateEventPoints(data: PointsInput): Map<string, DriverEvent
 
   // ---- Totals -----------------------------------------------------
   for (const d of result.values()) {
-    d.totalPoints = d.heatPoints + d.finalPoints + d.fastestLapBonus;
+    d.pointsAdjustment = adjustments.get(d.driverId) ?? d.pointsAdjustment;
+    d.totalPoints = d.heatPoints + d.finalPoints + d.fastestLapBonus + d.pointsAdjustment;
   }
 
   return result;

@@ -13,6 +13,7 @@ import type {
   SessionType,
   DriverClass,
 } from '@/types/database';
+import { assignKarts, buildPreviousKartsMap } from './race-utils';
 
 // ============================================================
 // Event + full data loader
@@ -89,6 +90,8 @@ export async function addParticipantsToEvent(
     class: d.class,
     team_id: d.team_id,
     is_excluded_from_points: false,
+    points_adjustment: 0,
+    points_adjustment_note: null,
   }));
 
   const { error } = await supabase.from('event_entries').upsert(rows, {
@@ -126,6 +129,24 @@ export async function toggleExcludeFromPoints(
 
   if (error) throw new Error(error.message);
   revalidatePath(`/races/${eventId}`);
+  revalidatePath('/standings');
+}
+
+export async function updatePointsAdjustment(
+  eventId: string,
+  entryId: string,
+  pointsAdjustment: number,
+  note: string | null
+): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('event_entries')
+    .update({ points_adjustment: pointsAdjustment, points_adjustment_note: note })
+    .eq('id', entryId);
+
+  if (error) throw new Error(error.message);
+  revalidatePath(`/races/${eventId}`);
+  revalidatePath('/standings');
 }
 
 // ============================================================
@@ -201,6 +222,45 @@ export async function clearSessionsByType(
     await supabase.from('session_results').delete().in('session_id', ids);
     await supabase.from('session_participants').delete().in('session_id', ids);
     await supabase.from('sessions').delete().in('id', ids);
+  }
+
+  revalidatePath(`/races/${eventId}`);
+}
+
+export async function reassignQuali2Karts(
+  eventId: string,
+  availableKarts: number[]
+): Promise<void> {
+  const supabase = await createClient();
+  const uniqueKarts = Array.from(new Set(availableKarts));
+
+  const { data: sessions, error } = await supabase
+    .from('sessions')
+    .select('id, type, participants:session_participants(id, driver_id, kart_number)')
+    .eq('event_id', eventId)
+    .order('sort_order');
+
+  if (error) throw new Error(error.message);
+  if (!sessions || sessions.length === 0) return;
+
+  const nonQ2Sessions = sessions.filter((s) => s.type !== 'quali_2');
+  const previousKarts = buildPreviousKartsMap(
+    nonQ2Sessions.map((s) => ({ participants: s.participants }))
+  );
+  const q2Sessions = sessions.filter((s) => s.type === 'quali_2');
+
+  for (const session of q2Sessions) {
+    const driverIds = session.participants.map((p) => p.driver_id);
+    const kartMap = assignKarts(driverIds, uniqueKarts, previousKarts);
+
+    for (const p of session.participants) {
+      const newKart = kartMap.get(p.driver_id) ?? null;
+      const { error: updErr } = await supabase
+        .from('session_participants')
+        .update({ kart_number: newKart })
+        .eq('id', p.id);
+      if (updErr) throw new Error(updErr.message);
+    }
   }
 
   revalidatePath(`/races/${eventId}`);
