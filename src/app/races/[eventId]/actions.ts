@@ -353,6 +353,54 @@ export async function updateParticipantKart(
   revalidatePath(`/races/${eventId}`);
 }
 
+/**
+ * A kart physically broke and was swapped out. Replace `oldKart` with `newKart`
+ * everywhere it is still going to be used — i.e. in every session of this event
+ * that has NOT been raced yet (no results saved). Sessions that already have
+ * results are left untouched. The just-edited participant is excluded since it
+ * was already updated.
+ *
+ * Returns the number of additional participants whose kart was swapped.
+ */
+export async function replaceKartInUnracedSessions(
+  eventId: string,
+  oldKart: number,
+  newKart: number,
+  excludeParticipantId: string
+): Promise<number> {
+  const supabase = await createClient();
+
+  const { data: sessions, error } = await supabase
+    .from('sessions')
+    .select('id, results:session_results(id), participants:session_participants(id, kart_number)')
+    .eq('event_id', eventId);
+
+  if (error) throw new Error(error.message);
+  if (!sessions) return 0;
+
+  const idsToUpdate: string[] = [];
+  for (const s of sessions) {
+    // Skip sessions that have already been raced.
+    if ((s.results?.length ?? 0) > 0) continue;
+    for (const p of s.participants) {
+      if (p.kart_number === oldKart && p.id !== excludeParticipantId) {
+        idsToUpdate.push(p.id);
+      }
+    }
+  }
+
+  if (idsToUpdate.length > 0) {
+    const { error: updErr } = await supabase
+      .from('session_participants')
+      .update({ kart_number: newKart })
+      .in('id', idsToUpdate);
+    if (updErr) throw new Error(updErr.message);
+  }
+
+  revalidatePath(`/races/${eventId}`);
+  return idsToUpdate.length;
+}
+
 // ============================================================
 // Update event status
 // ============================================================

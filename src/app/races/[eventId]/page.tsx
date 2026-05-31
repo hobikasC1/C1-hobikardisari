@@ -55,6 +55,7 @@ import {
   deleteSessionResult,
   moveParticipantBetweenSessions,
   updateParticipantKart,
+  replaceKartInUnracedSessions,
   updateEventStatus,
   updateKartSettings,
   type EventFullData,
@@ -68,6 +69,7 @@ import {
   generateHeatGroups,
   generateFinalGroups,
   buildPreviousKartsMap,
+  assignKarts,
   rankDriversByBestLap,
   rankDriversByPosition,
   parseLapTime,
@@ -425,9 +427,15 @@ function StepParticipants({
 }) {
   const { toast } = useToast();
   const [search, setSearch] = useState('');
+  const [participantSearch, setParticipantSearch] = useState('');
   const [adding, setAdding] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
   const [deleteConfirm2, setDeleteConfirm2] = useState(false);
+  // Hold the entry being deleted in a ref too: advancing from step 1 to step 2
+  // closes the first AlertDialog, whose onOpenChange would otherwise null out the
+  // state target mid-flow (stale-closure race), leaving the final confirm with
+  // nothing to delete.
+  const deleteTargetRef = useRef<{ id: string; name: string } | null>(null);
   const [isCreateDriverOpen, setIsCreateDriverOpen] = useState(false);
   const [creatingDriver, setCreatingDriver] = useState(false);
   const [adjustmentDrafts, setAdjustmentDrafts] = useState<Record<string, string>>({});
@@ -469,6 +477,13 @@ function StepParticipants({
   const unregistered = allDrivers.filter(
     (d) => !entryDriverIds.has(d.id) && `${d.first_name} ${d.last_name}`.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Filter the registered list by name, keeping each driver's original registration number.
+  const filteredEntries = entries
+    .map((entry, index) => ({ entry, index }))
+    .filter(({ entry }) =>
+      driverName(entry.driver).toLowerCase().includes(participantSearch.trim().toLowerCase())
+    );
 
   useEffect(() => {
     const nextDrafts: Record<string, string> = {};
@@ -532,7 +547,14 @@ function StepParticipants({
   };
 
   const startDelete = (entryId: string, name: string) => {
+    deleteTargetRef.current = { id: entryId, name };
     setDeleteTarget({ id: entryId, name });
+  };
+
+  const cancelDelete = () => {
+    deleteTargetRef.current = null;
+    setDeleteConfirm2(false);
+    setDeleteTarget(null);
   };
 
   const confirmDelete1 = () => {
@@ -540,15 +562,20 @@ function StepParticipants({
   };
 
   const confirmDelete2 = async () => {
-    if (!deleteTarget) return;
-    setDeleteConfirm2(false);
+    // Read from the ref, not state — state may have been cleared while the
+    // dialog phases swapped (see deleteTargetRef note above).
+    const target = deleteTargetRef.current;
+    if (!target) return;
     try {
-      await removeParticipantFromEvent(eventId, deleteTarget.id);
+      await removeParticipantFromEvent(eventId, target.id);
       toast({ title: 'Osaleja eemaldatud!' });
-      setDeleteTarget(null);
       await onRefresh();
     } catch (err) {
       toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    } finally {
+      deleteTargetRef.current = null;
+      setDeleteConfirm2(false);
+      setDeleteTarget(null);
     }
   };
 
@@ -561,6 +588,14 @@ function StepParticipants({
             <Users className="h-5 w-5" />
             Registreeritud osalejad ({entries.length})
           </CardTitle>
+          {entries.length > 0 && (
+            <Input
+              placeholder="Otsi registreeritud sõitjat..."
+              value={participantSearch}
+              onChange={(e) => setParticipantSearch(e.target.value)}
+              className="mt-2 max-w-xs"
+            />
+          )}
         </CardHeader>
         <CardContent>
           {entries.length > 0 ? (
@@ -579,9 +614,9 @@ function StepParticipants({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {entries.map((entry, i) => (
+                {filteredEntries.map(({ entry, index }) => (
                   <TableRow key={entry.id}>
-                    <TableCell>{i + 1}</TableCell>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell className="font-medium">{driverName(entry.driver)}</TableCell>
                     <TableCell><Badge variant="outline">{entry.class}</Badge></TableCell>
                     <TableCell>{entry.driver.weight ? `${entry.driver.weight} kg` : '–'}</TableCell>
@@ -625,6 +660,13 @@ function StepParticipants({
                     </TableCell>
                   </TableRow>
                 ))}
+                {filteredEntries.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={9} className="text-center text-muted-foreground py-6">
+                      Otsingule vastavaid sõitjaid ei leitud.
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           ) : (
@@ -736,41 +778,45 @@ function StepParticipants({
         </DialogContent>
       </Dialog>
 
-      {/* Delete confirm 1 */}
-      <AlertDialog open={!!deleteTarget && !deleteConfirm2} onOpenChange={() => setDeleteTarget(null)}>
+      {/* Delete confirmation — two phases in ONE dialog. We use plain Buttons (not
+          AlertDialogAction/Cancel) so Radix never auto-closes the dialog out from
+          under us; open state is driven solely by deleteTarget, which kills the
+          earlier two-dialog race where the final confirm silently did nothing. */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => { if (!open) cancelDelete(); }}>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Eemalda osaleja?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Kas soovid eemaldada osaleja &quot;{deleteTarget?.name}&quot; sellelt etapilt?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeleteTarget(null)}>Tühista</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete1} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Jah, eemalda
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Delete confirm 2 */}
-      <AlertDialog open={deleteConfirm2} onOpenChange={setDeleteConfirm2}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2 text-destructive">
-              <AlertTriangle className="h-5 w-5" /> Viimane kinnitus
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              See kustutab ka osaleja tulemused sellel etapil. Toiming on pöördumatu.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => { setDeleteConfirm2(false); setDeleteTarget(null); }}>Tühista</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete2} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Kustuta jäädavalt
-            </AlertDialogAction>
-          </AlertDialogFooter>
+          {!deleteConfirm2 ? (
+            <>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Eemalda osaleja?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Kas soovid eemaldada osaleja &quot;{deleteTarget?.name}&quot; sellelt etapilt?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <Button variant="outline" onClick={cancelDelete}>Tühista</Button>
+                <Button onClick={confirmDelete1} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  Jah, eemalda
+                </Button>
+              </AlertDialogFooter>
+            </>
+          ) : (
+            <>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2 text-destructive">
+                  <AlertTriangle className="h-5 w-5" /> Viimane kinnitus
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  See kustutab ka osaleja tulemused sellel etapil. Toiming on pöördumatu.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <Button variant="outline" onClick={cancelDelete}>Tühista</Button>
+                <Button onClick={confirmDelete2} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  Kustuta jäädavalt
+                </Button>
+              </AlertDialogFooter>
+            </>
+          )}
         </AlertDialogContent>
       </AlertDialog>
     </div>
@@ -875,15 +921,20 @@ function StepGroupSetup({
         for (const k of karts) q2PreviousKarts.get(dId)!.add(k);
       }
 
-      const q2Groups = generateQualiGroups(driverIds, groupCount, maxKarts, uniqueKarts, q2PreviousKarts);
-      // Keep same group assignments from Q1, only change karts
-      const q2WithSameGroups = q1Groups.map((q1g, i) => ({
-        groupName: q1g.groupName,
-        participants: q1g.participants.map((p) => {
-          const q2Kart = q2Groups.flatMap((g) => g.participants).find((x) => x.driverId === p.driverId);
-          return { driverId: p.driverId, kartNumber: q2Kart?.kartNumber ?? null };
-        }),
-      }));
+      // Keep the SAME group membership as Q1, only assign fresh karts.
+      // Assign per-group via assignKarts so karts are unique within each Q2 group —
+      // generating a separate random regrouping and remapping caused duplicates.
+      const q2WithSameGroups = q1Groups.map((q1g) => {
+        const groupDriverIds = q1g.participants.map((p) => p.driverId);
+        const kartMap = assignKarts(groupDriverIds, uniqueKarts, q2PreviousKarts);
+        return {
+          groupName: q1g.groupName,
+          participants: groupDriverIds.map((dId) => ({
+            driverId: dId,
+            kartNumber: kartMap.get(dId) ?? null,
+          })),
+        };
+      });
 
       await createSessions(eventId, 'quali_2', q2WithSameGroups);
 
@@ -1353,12 +1404,97 @@ function SessionGroupCards({
   const [moveParticipant, setMoveParticipant] = useState<{ id: string; name: string; currentSessionId: string } | null>(null);
   const [moveTarget, setMoveTarget] = useState('');
 
+  // Inline kart editing
+  const [editingKartId, setEditingKartId] = useState<string | null>(null);
+  const [editKartValue, setEditKartValue] = useState('');
+  const [savingKart, setSavingKart] = useState(false);
+  // Propagation prompt shown after a kart number is changed (broken kart swap)
+  const [propagate, setPropagate] = useState<
+    { participantId: string; participantName: string; oldKart: number; newKart: number; candidateCount: number } | null
+  >(null);
+
+  const startEditKart = (participantId: string, current: number | null) => {
+    setEditingKartId(participantId);
+    setEditKartValue(current != null ? String(current) : '');
+  };
+
+  const cancelEditKart = () => {
+    setEditingKartId(null);
+    setEditKartValue('');
+  };
+
+  const saveKart = async (participantId: string, oldKart: number | null, participantName: string) => {
+    const trimmed = editKartValue.trim();
+    const parsed = trimmed === '' ? null : parseInt(trimmed, 10);
+    if (trimmed !== '' && (parsed === null || Number.isNaN(parsed))) {
+      toast({ title: 'Vigane kardinumber', variant: 'destructive' });
+      return;
+    }
+    if (parsed === oldKart) {
+      cancelEditKart();
+      return;
+    }
+    setSavingKart(true);
+    try {
+      await updateParticipantKart(eventId, participantId, parsed);
+      cancelEditKart();
+
+      // If a real kart number was swapped out, see if it is still used in other
+      // not-yet-raced sessions and offer to replace it there too (broken kart).
+      if (oldKart != null && parsed != null) {
+        const candidateCount = allSessions.reduce((acc, s) => {
+          const raced = (s.results?.length ?? 0) > 0;
+          if (raced) return acc;
+          return acc + s.participants.filter((p) => p.kart_number === oldKart && p.id !== participantId).length;
+        }, 0);
+        if (candidateCount > 0) {
+          setPropagate({ participantId, participantName, oldKart, newKart: parsed, candidateCount });
+        }
+      }
+      await onRefresh();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    } finally {
+      setSavingKart(false);
+    }
+  };
+
+  const confirmPropagate = async () => {
+    if (!propagate) return;
+    try {
+      const count = await replaceKartInUnracedSessions(
+        eventId,
+        propagate.oldKart,
+        propagate.newKart,
+        propagate.participantId
+      );
+      toast({ title: `Kart ${propagate.oldKart} → ${propagate.newKart} asendatud ${count} grupis.` });
+      setPropagate(null);
+      await onRefresh();
+    } catch (err) {
+      toast({ title: 'Viga', description: String(err), variant: 'destructive' });
+    }
+  };
+
+  // Valid move targets = every other group of the SAME type across the whole event.
+  // (Each Q1/Q2 group renders its own SessionGroupCards with a single-session list,
+  // so we must look at allSessions here, not the local `sessions` prop.)
+  const moveTargetGroups = useMemo(() => {
+    if (!moveParticipant) return [];
+    const current = allSessions.find((s) => s.id === moveParticipant.currentSessionId);
+    if (!current) return [];
+    return allSessions
+      .filter((s) => s.type === current.type && s.id !== moveParticipant.currentSessionId)
+      .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+  }, [allSessions, moveParticipant]);
+
   const handleMove = async () => {
     if (!moveParticipant || !moveTarget) return;
     try {
       await moveParticipantBetweenSessions(eventId, moveParticipant.id, moveTarget);
       toast({ title: 'Sõitja teisaldatud!' });
       setMoveParticipant(null);
+      setMoveTarget('');
       await onRefresh();
     } catch (err) {
       toast({ title: 'Viga', description: String(err), variant: 'destructive' });
@@ -1399,7 +1535,54 @@ function SessionGroupCards({
                       <TableRow key={p.id}>
                         <TableCell className="text-center font-mono text-sm">{p.grid_position ?? '–'}</TableCell>
                         <TableCell>
-                          <Badge variant="secondary">{p.kart_number ?? '–'}</Badge>
+                          {editingKartId === p.id ? (
+                            <div className="flex items-center gap-1">
+                              <Input
+                                type="number"
+                                autoFocus
+                                value={editKartValue}
+                                onChange={(e) => setEditKartValue(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') saveKart(p.id, p.kart_number, driverName(p.driver));
+                                  if (e.key === 'Escape') cancelEditKart();
+                                }}
+                                className="h-7 w-14 px-1 text-center"
+                                disabled={savingKart}
+                              />
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 text-green-600"
+                                disabled={savingKart}
+                                onClick={() => saveKart(p.id, p.kart_number, driverName(p.driver))}
+                                title="Salvesta"
+                              >
+                                <Check className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7"
+                                disabled={savingKart}
+                                onClick={cancelEditKart}
+                                title="Tühista"
+                              >
+                                <X className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => startEditKart(p.id, p.kart_number)}
+                              className="group/kart inline-flex items-center gap-1"
+                              title="Muuda kardinumbrit"
+                            >
+                              <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/70">
+                                {p.kart_number ?? '–'}
+                              </Badge>
+                              <Pencil className="h-3 w-3 opacity-0 group-hover/kart:opacity-60 transition-opacity" />
+                            </button>
+                          )}
                         </TableCell>
                         <TableCell className="font-medium">{driverName(p.driver)}</TableCell>
                         <TableCell><Badge variant="outline">{entry?.class ?? '–'}</Badge></TableCell>
@@ -1429,7 +1612,7 @@ function SessionGroupCards({
       </div>
 
       {/* Move dialog */}
-      <Dialog open={!!moveParticipant} onOpenChange={() => setMoveParticipant(null)}>
+      <Dialog open={!!moveParticipant} onOpenChange={() => { setMoveParticipant(null); setMoveTarget(''); }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Teisalda sõitja</DialogTitle>
@@ -1440,21 +1623,46 @@ function SessionGroupCards({
           <Select value={moveTarget} onValueChange={setMoveTarget}>
             <SelectTrigger><SelectValue placeholder="Vali grupp" /></SelectTrigger>
             <SelectContent>
-              {sessions
-                .filter((s) => s.id !== moveParticipant?.currentSessionId)
-                .map((s) => (
+              {moveTargetGroups.length > 0 ? (
+                moveTargetGroups.map((s) => (
                   <SelectItem key={s.id} value={s.id}>
                     {label} {s.group_name} ({s.participants.length} sõitjat)
                   </SelectItem>
-                ))}
+                ))
+              ) : (
+                <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                  Teisi gruppe pole.
+                </div>
+              )}
             </SelectContent>
           </Select>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setMoveParticipant(null)}>Tühista</Button>
+            <Button variant="outline" onClick={() => { setMoveParticipant(null); setMoveTarget(''); }}>Tühista</Button>
             <Button onClick={handleMove} disabled={!moveTarget}>Teisalda</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Propagate broken-kart swap to later un-raced groups */}
+      <AlertDialog open={!!propagate} onOpenChange={(open) => { if (!open) setPropagate(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Asenda kart ka järgmistes gruppides?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Kart <strong>{propagate?.oldKart}</strong> on veel kasutusel{' '}
+              <strong>{propagate?.candidateCount}</strong> sõitmata grupis. Kas asendada see
+              kõikjal kardiga <strong>{propagate?.newKart}</strong> (nt kui kart läks katki)?
+              Juba sõidetud gruppe ei muudeta.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setPropagate(null)}>Ainult see grupp</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmPropagate}>
+              Jah, asenda kõikjal
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

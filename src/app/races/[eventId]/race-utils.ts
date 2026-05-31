@@ -71,39 +71,33 @@ export function recommendGroupCount(participantCount: number, maxKarts: number):
 }
 
 /**
- * Get group sizes aiming to fill fastest groups to max, passing overflow backward.
- * e.g. 19 drivers with 9 max karts in 3 groups → [9, 7, 3] (ensures last group has >= 3)
+ * Get group sizes split as evenly as possible across the groups.
+ *
+ * Participants are distributed so every group differs by at most one driver, with
+ * the remainder going to the earliest (fastest) groups — so group A is always the
+ * largest. e.g. 32 drivers in 5 groups → [7, 7, 6, 6, 6] instead of [7, 7, 7, 7, 4].
+ *
+ * Never returns empty groups: if more groups are requested than there are
+ * participants, the surplus groups are dropped (so the returned array can be
+ * shorter than `groupCount`). Callers should iterate over `sizes.length`.
  */
 export function getGroupSizes(participantCount: number, groupCount: number, maxKarts: number): number[] {
-  if (groupCount <= 0) return [];
-  
-  const sizes = new Array(groupCount).fill(0);
-  let remaining = participantCount;
-  
-  for (let i = 0; i < groupCount; i++) {
-    const take = Math.min(maxKarts, remaining);
-    sizes[i] = take;
-    remaining -= take;
+  if (groupCount <= 0 || participantCount <= 0) return [];
+
+  // Don't create more groups than we have drivers — that's what produced empty groups.
+  // Also make sure we have enough groups so no group exceeds the kart capacity.
+  const minGroupsForCapacity = maxKarts > 0 ? Math.ceil(participantCount / maxKarts) : groupCount;
+  const effectiveGroups = Math.min(participantCount, Math.max(groupCount, minGroupsForCapacity));
+
+  const base = Math.floor(participantCount / effectiveGroups);
+  const remainder = participantCount % effectiveGroups;
+
+  const sizes: number[] = [];
+  for (let i = 0; i < effectiveGroups; i++) {
+    // First `remainder` groups get one extra driver, keeping group A the fullest.
+    sizes.push(base + (i < remainder ? 1 : 0));
   }
-  
-  // Ensure the last group has at least 3 drivers (if possible, pulling from previous groups)
-  const MIN_GROUP_SIZE = 3;
-  if (groupCount > 1 && sizes[groupCount - 1] > 0 && sizes[groupCount - 1] < MIN_GROUP_SIZE) {
-    let needed = MIN_GROUP_SIZE - sizes[groupCount - 1];
-    let donorIdx = groupCount - 2;
-    
-    while (needed > 0 && donorIdx >= 0) {
-      const availableToDonate = Math.max(0, sizes[donorIdx] - MIN_GROUP_SIZE);
-      const donate = Math.min(needed, availableToDonate);
-      
-      sizes[donorIdx] -= donate;
-      sizes[groupCount - 1] += donate;
-      needed -= donate;
-      
-      donorIdx--;
-    }
-  }
-  
+
   return sizes;
 }
 
@@ -182,7 +176,7 @@ export function generateQualiGroups(
   const groups: GeneratedGroup[] = [];
   let offset = 0;
 
-  for (let i = 0; i < groupCount; i++) {
+  for (let i = 0; i < sizes.length; i++) {
     const groupDrivers = shuffled.slice(offset, offset + sizes[i]);
     const kartMap = assignKarts(groupDrivers, availableKarts, previousKarts);
 
@@ -216,9 +210,12 @@ export function generateHeatGroups(
   previousKarts: Map<string, Set<number>> = new Map()
 ): GeneratedGroup[] {
   const groupNames = 'ABCDEFGHIJKLMNOP'.split('');
-  // Pre-compute target sizes so first (faster) groups get extra drivers
+  // Pre-compute target sizes so first (faster) groups get extra drivers.
+  // sizes.length is the real number of groups (never empty), which may be
+  // smaller than the requested groupCount.
   const sizes = getGroupSizes(rankedDrivers.length, groupCount, maxKarts);
-  const groups: string[][] = Array.from({ length: groupCount }, () => []);
+  const realGroupCount = sizes.length;
+  const groups: string[][] = Array.from({ length: realGroupCount }, () => []);
 
   // Snake draft with size caps: skip full groups so extras go to earlier groups
   let groupIdx = 0;
@@ -227,10 +224,10 @@ export function generateHeatGroups(
   for (const driver of rankedDrivers) {
     // Skip groups that have already reached their target size
     let attempts = 0;
-    while (groups[groupIdx].length >= sizes[groupIdx] && attempts < groupCount) {
+    while (groups[groupIdx].length >= sizes[groupIdx] && attempts < realGroupCount) {
       groupIdx += direction;
-      if (groupIdx >= groupCount) {
-        groupIdx = groupCount - 1;
+      if (groupIdx >= realGroupCount) {
+        groupIdx = realGroupCount - 1;
         direction = -1;
       } else if (groupIdx < 0) {
         groupIdx = 0;
@@ -242,8 +239,8 @@ export function generateHeatGroups(
     groups[groupIdx].push(driver.driverId);
 
     groupIdx += direction;
-    if (groupIdx >= groupCount) {
-      groupIdx = groupCount - 1;
+    if (groupIdx >= realGroupCount) {
+      groupIdx = realGroupCount - 1;
       direction = -1;
     } else if (groupIdx < 0) {
       groupIdx = 0;
@@ -278,11 +275,11 @@ export function generateFinalGroups(
   availableKarts: number[],
   previousKarts: Map<string, Set<number>> = new Map()
 ): GeneratedGroup[] {
-  const groups: string[][] = Array.from({ length: groupCount }, () => []);
   const sizes = getGroupSizes(rankedDrivers.length, groupCount, maxKarts);
+  const groups: string[][] = Array.from({ length: sizes.length }, () => []);
 
   let offset = 0;
-  for (let i = 0; i < groupCount; i++) {
+  for (let i = 0; i < sizes.length; i++) {
     const count = sizes[i];
     for (let j = 0; j < count && offset + j < rankedDrivers.length; j++) {
       groups[i].push(rankedDrivers[offset + j].driverId);
